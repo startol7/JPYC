@@ -3,373 +3,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JPYC Survey - アンケートに答えてJPYCをゲット！</title>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>JPYC ウォレット - 残高チェッカー & 送金ツール</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap');
-        body { font-family: 'Noto Sans JP', sans-serif; }
-        .jpyc-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-        .card-shadow {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .pulse-animation {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .5; }
+        .animate-spin {
+            animation: spin 1s linear infinite;
         }
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div id="app" class="p-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h1 class="text-3xl font-bold text-indigo-600 flex items-center gap-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                        JPYC ウォレット
+                    </h1>
+                    <button id="connectBtn" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                        ウォレット接続
+                    </button>
+                </div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+                <div id="connectedWallet" class="bg-indigo-50 p-4 rounded-lg hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-sm text-gray-600">接続中のウォレット</p>
+                        <button id="copyBtn" class="text-indigo-600 hover:text-indigo-700 flex items-center gap-1 text-sm">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            コピー
+                        </button>
+                    </div>
+                    <p id="walletAddress" class="font-mono text-sm"></p>
+                </div>
+            </div>
 
-        function App() {
-            const [currentView, setCurrentView] = useState('dashboard');
-            const [userBalance, setUserBalance] = useState(0);
-            const [completedSurveys, setCompletedSurveys] = useState([]);
-            const [selectedSurvey, setSelectedSurvey] = useState(null);
-            const [surveyAnswers, setSurveyAnswers] = useState({});
-            const [walletAddress, setWalletAddress] = useState('');
-            const [isConnected, setIsConnected] = useState(false);
+            <!-- Main Content (Hidden until wallet connected) -->
+            <div id="mainContent" class="hidden">
+                <!-- Network Switcher -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold mb-4">ネットワーク選択</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button onclick="switchNetwork('ethereum')" id="btn-ethereum" class="network-btn p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-300 transition">
+                            <div class="text-center">
+                                <p class="font-semibold">Ethereum</p>
+                            </div>
+                        </button>
+                        <button onclick="switchNetwork('polygon')" id="btn-polygon" class="network-btn p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-300 transition">
+                            <div class="text-center">
+                                <p class="font-semibold">Polygon</p>
+                            </div>
+                        </button>
+                        <button onclick="switchNetwork('avalanche')" id="btn-avalanche" class="network-btn p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-300 transition">
+                            <div class="text-center">
+                                <p class="font-semibold">Avalanche</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
 
-            const surveys = [
-                {
-                    id: 1,
-                    title: "Web3に関する意識調査",
-                    reward: 50,
-                    estimatedTime: "3分",
-                    category: "テクノロジー",
-                    questions: [
-                        {
-                            id: 'q1',
-                            question: "暗号資産を保有していますか？",
-                            type: 'single',
-                            options: ["はい", "いいえ", "過去に保有していた"]
-                        },
-                        {
-                            id: 'q2',
-                            question: "JPYCを使ったことがありますか？",
-                            type: 'single',
-                            options: ["頻繁に使う", "たまに使う", "使ったことがない", "JPYCを知らない"]
-                        },
-                        {
-                            id: 'q3',
-                            question: "ステーブルコインの主な利用目的は？（複数選択可）",
-                            type: 'multiple',
-                            options: ["送金", "決済", "DeFi運用", "価値の保存", "その他"]
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: "オンラインショッピング習慣調査",
-                    reward: 30,
-                    estimatedTime: "2分",
-                    category: "ライフスタイル",
-                    questions: [
-                        {
-                            id: 'q1',
-                            question: "月にどのくらいオンラインショッピングをしますか？",
-                            type: 'single',
-                            options: ["週に複数回", "週1回程度", "月2-3回", "月1回以下"]
-                        },
-                        {
-                            id: 'q2',
-                            question: "よく利用するECサイトは？",
-                            type: 'multiple',
-                            options: ["Amazon", "楽天", "Yahoo!ショッピング", "メルカリ", "その他"]
-                        }
-                    ]
-                },
-                {
-                    id: 3,
-                    title: "リモートワークに関するアンケート",
-                    reward: 40,
-                    estimatedTime: "3分",
-                    category: "働き方",
-                    questions: [
-                        {
-                            id: 'q1',
-                            question: "現在の勤務形態は？",
-                            type: 'single',
-                            options: ["完全リモート", "ハイブリッド", "完全出社", "フリーランス"]
-                        },
-                        {
-                            id: 'q2',
-                            question: "理想的な出社頻度は？",
-                            type: 'single',
-                            options: ["完全在宅", "週1-2日出社", "週3-4日出社", "毎日出社"]
-                        }
-                    ]
-                }
-            ];
+                <!-- Balance Display -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold">JPYC残高</h2>
+                        <button id="refreshBtn" onclick="refreshBalance()" class="text-indigo-600 hover:text-indigo-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <p id="balance" class="text-5xl font-bold text-indigo-600">0.00</p>
+                        <p class="text-gray-600 mt-2">JPYC</p>
+                        <p id="balanceYen" class="text-sm text-gray-500 mt-1">≈ ¥0</p>
+                    </div>
+                </div>
 
-            const connectWallet = () => {
-                // ウォレット接続のシミュレーション
-                const mockAddress = "0x" + Math.random().toString(16).substr(2, 40);
-                setWalletAddress(mockAddress);
-                setIsConnected(true);
-            };
-
-            const startSurvey = (survey) => {
-                if (!isConnected) {
-                    alert("まずウォレットを接続してください");
-                    return;
-                }
-                setSelectedSurvey(survey);
-                setCurrentView('survey');
-                setSurveyAnswers({});
-            };
-
-            const handleAnswer = (questionId, answer) => {
-                setSurveyAnswers(prev => ({
-                    ...prev,
-                    [questionId]: answer
-                }));
-            };
-
-            const completeSurvey = () => {
-                const allQuestionsAnswered = selectedSurvey.questions.every(
-                    q => surveyAnswers[q.id] && surveyAnswers[q.id].length > 0
-                );
-
-                if (!allQuestionsAnswered) {
-                    alert("すべての質問に回答してください");
-                    return;
-                }
-
-                // 報酬を追加
-                setUserBalance(prev => prev + selectedSurvey.reward);
-                setCompletedSurveys(prev => [...prev, selectedSurvey.id]);
-                
-                // トランザクション通知
-                alert(`🎉 アンケート完了！${selectedSurvey.reward} JPYCを獲得しました！`);
-                
-                setCurrentView('dashboard');
-                setSelectedSurvey(null);
-            };
-
-            const Header = () => (
-                <div className="jpyc-gradient text-white p-4 shadow-lg">
-                    <div className="container mx-auto flex justify-between items-center">
-                        <div className="flex items-center space-x-3">
-                            <div className="text-2xl font-bold">💰</div>
-                            <h1 className="text-2xl font-bold">JPYC Survey</h1>
+                <!-- Send Form -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                        JPYC送金
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">受取アドレス</label>
+                            <input type="text" id="recipientAddress" placeholder="0x..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         </div>
-                        <div className="flex items-center space-x-4">
-                            {isConnected ? (
-                                <>
-                                    <div className="bg-white/20 rounded-lg px-4 py-2">
-                                        <span className="text-sm">残高:</span>
-                                        <span className="text-xl font-bold ml-2">{userBalance} JPYC</span>
-                                    </div>
-                                    <div className="bg-white/20 rounded-lg px-4 py-2">
-                                        <span className="text-sm">
-                                            {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-                                        </span>
-                                    </div>
-                                </>
-                            ) : (
-                                <button 
-                                    onClick={connectWallet}
-                                    className="bg-white text-purple-600 px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition"
-                                >
-                                    ウォレット接続
-                                </button>
-                            )}
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">送金額 (JPYC)</label>
+                            <input type="number" id="sendAmount" placeholder="0.00" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <p id="availableBalance" class="text-sm text-gray-500 mt-1">利用可能: 0.00 JPYC</p>
+                        </div>
+
+                        <button id="sendBtn" onclick="sendJPYC()" class="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            送金する
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div id="errorMsg" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 hidden">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p id="errorText"></p>
+                    </div>
+                </div>
+
+                <div id="successMsg" class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4 hidden">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <p id="successText"></p>
+                            <a id="txLink" href="#" target="_blank" rel="noopener noreferrer" class="text-sm underline mt-1 hidden">トランザクションを確認</a>
                         </div>
                     </div>
                 </div>
-            );
+            </div>
 
-            const Dashboard = () => (
-                <div className="container mx-auto p-6">
-                    <div className="mb-8">
-                        <h2 className="text-3xl font-bold mb-2">アンケート一覧</h2>
-                        <p className="text-gray-600">アンケートに答えてJPYCを獲得しましょう！</p>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {surveys.map(survey => {
-                            const isCompleted = completedSurveys.includes(survey.id);
-                            return (
-                                <div key={survey.id} className="bg-white rounded-xl card-shadow p-6 hover:transform hover:scale-105 transition-all">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <span className="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">
-                                            {survey.category}
-                                        </span>
-                                        <div className="text-right">
-                                            <div className="text-2xl font-bold text-purple-600">{survey.reward}</div>
-                                            <div className="text-xs text-gray-500">JPYC</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <h3 className="text-lg font-bold mb-2">{survey.title}</h3>
-                                    <div className="flex items-center text-sm text-gray-500 mb-4">
-                                        <span>⏱ 約{survey.estimatedTime}</span>
-                                        <span className="mx-2">•</span>
-                                        <span>📝 {survey.questions.length}問</span>
-                                    </div>
-                                    
-                                    {isCompleted ? (
-                                        <button className="w-full bg-gray-200 text-gray-500 py-3 rounded-lg font-bold cursor-not-allowed">
-                                            ✅ 回答済み
-                                        </button>
-                                    ) : (
-                                        <button 
-                                            onClick={() => startSurvey(survey)}
-                                            className="w-full jpyc-gradient text-white py-3 rounded-lg font-bold hover:opacity-90 transition"
-                                        >
-                                            アンケートを開始
-                                        </button>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    <div className="mt-12 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-8">
-                        <h3 className="text-2xl font-bold mb-4">🎯 今月の実績</h3>
-                        <div className="grid md:grid-cols-3 gap-6">
-                            <div className="bg-white rounded-lg p-4">
-                                <div className="text-3xl font-bold text-purple-600">{completedSurveys.length}</div>
-                                <div className="text-gray-600">完了したアンケート</div>
-                            </div>
-                            <div className="bg-white rounded-lg p-4">
-                                <div className="text-3xl font-bold text-purple-600">{userBalance}</div>
-                                <div className="text-gray-600">獲得したJPYC</div>
-                            </div>
-                            <div className="bg-white rounded-lg p-4">
-                                <div className="text-3xl font-bold text-purple-600">
-                                    {surveys.length - completedSurveys.length}
-                                </div>
-                                <div className="text-gray-600">残りのアンケート</div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Info Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">JPYCについて</h2>
+                <div class="space-y-2 text-sm text-gray-600">
+                    <p>✓ 1 JPYC = 1円の日本円連動ステーブルコイン</p>
+                    <p>✓ Ethereum、Polygon、Avalancheの3チェーンに対応</p>
+                    <p>✓ 手数料無料で発行・償還可能（ガス代は別途必要）</p>
+                    <p>✓ 2025年10月27日に正式発行開始</p>
+                    <p class="mt-4 text-xs">
+                        <strong>コントラクトアドレス:</strong><br>
+                        <span class="font-mono">0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29</span>
+                    </p>
                 </div>
-            );
+            </div>
+        </div>
+    </div>
 
-            const SurveyView = () => {
-                const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-                const currentQuestion = selectedSurvey.questions[currentQuestionIndex];
-                const progress = ((currentQuestionIndex + 1) / selectedSurvey.questions.length) * 100;
+    <script>
+        // JPYC Contract Address (same across all chains)
+        const JPYC_CONTRACT = '0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29';
 
-                const handleNext = () => {
-                    if (!surveyAnswers[currentQuestion.id] || surveyAnswers[currentQuestion.id].length === 0) {
-                        alert("回答を選択してください");
-                        return;
-                    }
+        // Supported networks
+        const NETWORKS = {
+            ethereum: {
+                chainId: '0x1',
+                chainName: 'Ethereum Mainnet',
+                rpcUrls: ['https://eth.llamarpc.com'],
+                nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+                blockExplorerUrls: ['https://etherscan.io']
+            },
+            polygon: {
+                chainId: '0x89',
+                chainName: 'Polygon Mainnet',
+                rpcUrls: ['https://polygon-rpc.com'],
+                nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+                blockExplorerUrls: ['https://polygonscan.com']
+            },
+            avalanche: {
+                chainId: '0xa86a',
+                chainName: 'Avalanche C-Chain',
+                rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+                nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+                blockExplorerUrls: ['https://snowtrace.io']
+            }
+        };
 
-                    if (currentQuestionIndex < selectedSurvey.questions.length - 1) {
-                        setCurrentQuestionIndex(prev => prev + 1);
-                    } else {
-                        completeSurvey();
-                    }
-                };
+        // ERC20 ABI for JPYC
+        const ERC20_ABI = [
+            'function balanceOf(address) view returns (uint256)',
+            'function transfer(address to, uint256 amount) returns (bool)',
+            'function symbol() view returns (string)',
+            'function decimals() view returns (uint8)'
+        ];
 
-                const handleOptionClick = (option) => {
-                    if (currentQuestion.type === 'single') {
-                        handleAnswer(currentQuestion.id, [option]);
-                    } else {
-                        const currentAnswers = surveyAnswers[currentQuestion.id] || [];
-                        if (currentAnswers.includes(option)) {
-                            handleAnswer(currentQuestion.id, currentAnswers.filter(a => a !== option));
-                        } else {
-                            handleAnswer(currentQuestion.id, [...currentAnswers, option]);
-                        }
-                    }
-                };
+        let currentAccount = '';
+        let currentNetwork = '';
+        let currentBalance = '0';
 
-                return (
-                    <div className="container mx-auto p-6 max-w-2xl">
-                        <div className="bg-white rounded-xl card-shadow p-8">
-                            <div className="mb-6">
-                                <div className="flex justify-between items-center mb-2">
-                                    <h2 className="text-xl font-bold">{selectedSurvey.title}</h2>
-                                    <span className="text-purple-600 font-bold">{selectedSurvey.reward} JPYC</span>
-                                </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
-                                    <div className="jpyc-gradient h-2 rounded-full transition-all" style={{width: `${progress}%`}}></div>
-                                </div>
-                                <div className="text-sm text-gray-500 mt-2">
-                                    質問 {currentQuestionIndex + 1} / {selectedSurvey.questions.length}
-                                </div>
-                            </div>
+        // Initialize
+        window.addEventListener('load', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                checkConnection();
+                window.ethereum.on('accountsChanged', handleAccountsChanged);
+                window.ethereum.on('chainChanged', () => window.location.reload());
+            }
+        });
 
-                            <div className="mb-8">
-                                <h3 className="text-lg font-bold mb-4">{currentQuestion.question}</h3>
-                                {currentQuestion.type === 'multiple' && (
-                                    <p className="text-sm text-gray-500 mb-4">（複数選択可）</p>
-                                )}
-                                
-                                <div className="space-y-3">
-                                    {currentQuestion.options.map(option => {
-                                        const isSelected = (surveyAnswers[currentQuestion.id] || []).includes(option);
-                                        return (
-                                            <button
-                                                key={option}
-                                                onClick={() => handleOptionClick(option)}
-                                                className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                                                    isSelected 
-                                                        ? 'border-purple-500 bg-purple-50' 
-                                                        : 'border-gray-200 hover:border-purple-300'
-                                                }`}
-                                            >
-                                                <div className="flex items-center">
-                                                    <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${
-                                                        isSelected ? 'border-purple-500' : 'border-gray-300'
-                                                    }`}>
-                                                        {isSelected && (
-                                                            <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                                                        )}
-                                                    </div>
-                                                    {option}
-                                                </div>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-
-                            <div className="flex justify-between">
-                                <button 
-                                    onClick={() => setCurrentView('dashboard')}
-                                    className="px-6 py-3 text-gray-600 hover:text-gray-800 transition"
-                                >
-                                    中断する
-                                </button>
-                                <button 
-                                    onClick={handleNext}
-                                    className="jpyc-gradient text-white px-8 py-3 rounded-lg font-bold hover:opacity-90 transition"
-                                >
-                                    {currentQuestionIndex === selectedSurvey.questions.length - 1 ? '完了する' : '次へ'}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                );
-            };
-
-            return (
-                <div className="min-h-screen bg-gray-50">
-                    <Header />
-                    {currentView === 'dashboard' && <Dashboard />}
-                    {currentView === 'survey' && selectedSurvey && <SurveyView />}
-                </div>
-            );
+        async function checkConnection() {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    handleAccountsChanged(accounts);
+                }
+            } catch (err) {
+                console.error('Error checking connection:', err);
+            }
         }
 
-        ReactDOM.render(<App />, document.getElementById('root'));
+        async function handleAccountsChanged(accounts) {
+            if (accounts.length > 0) {
+                currentAccount = accounts[0];
+                document.getElementById('walletAddress').textContent = currentAccount;
+                document.getElementById('connectedWallet').classList.remove('hidden');
+                document.getElementById('connectBtn').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                await updateNetwork();
+                await updateBalance();
+            } else {
+                currentAccount = '';
+                document.getElementById('connectedWallet').classList.add('hidden');
+                document.getElementById('connectBtn').classList.remove('hidden');
+                document.getElementById('mainContent').classList.add('hidden');
+            }
+        }
+
+        async function connectWallet() {
+            if (typeof window.ethereum === 'undefined') {
+                showError('MetaMaskがインストールされていません。MetaMaskをインストールしてください。');
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                handleAccountsChanged(accounts);
+            } catch (err) {
+                showError('ウォレット接続に失敗しました: ' + err.message);
+            }
+        }
+
+        async function updateNetwork() {
+            try {
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                const network = Object.keys(NETWORKS).find(
+                    key => NETWORKS[key].chainId === chainId
+                );
+                currentNetwork = network || 'unknown';
+                
+                // Update UI
+                document.querySelectorAll('.network-btn').forEach(btn => {
+                    btn.classList.remove('border-indigo-600', 'bg-indigo-50');
+                    btn.classList.add('border-gray-200');
+                });
+                
+                if (network) {
+                    const btn = document.getElementById(`btn-${network}`);
+                    btn.classList.remove('border-gray-200');
+                    btn.classList.add('border-indigo-600', 'bg-indigo-50');
+                }
+            } catch (err) {
+                console.error('Error getting network:', err);
+            }
+        }
+
+        async function updateBalance() {
+            if (!window.ethereum || !currentAccount) return;
+
+            try {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const contract = new ethers.Contract(JPYC_CONTRACT, ERC20_ABI, provider);
+                const balance = await contract.balanceOf(currentAccount);
+                currentBalance = ethers.utils.formatUnits(balance, 18);
+                
+                document.getElementById('balance').textContent = parseFloat(currentBalance).toFixed(2);
+                document.getElementById('balanceYen').textContent = `≈ ¥${Math.floor(parseFloat(currentBalance))}`;
+                document.getElementById('availableBalance').textContent = `利用可能: ${parseFloat(currentBalance).toFixed(2)} JPYC`;
+            } catch (err) {
+                console.error('Error fetching balance:', err);
+                currentBalance = '0';
+            }
+        }
+
+        async function refreshBalance() {
+            const btn = document.getElementById('refreshBtn');
+            btn.querySelector('svg').classList.add('animate-spin');
+            await updateBalance();
+            setTimeout(() => {
+                btn.querySelector('svg').classList.remove('animate-spin');
+            }, 500);
+        }
+
+        async function switchNetwork(networkKey) {
+            if (!window.ethereum) return;
+
+            try {
+                const network = NETWORKS[networkKey];
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: network.chainId }],
+                });
+                currentNetwork = networkKey;
+                await updateBalance();
+            } catch (err) {
+                if (err.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [NETWORKS[networkKey]],
+                        });
+                    } catch (addError) {
+                        showError('ネットワークの追加に失敗しました');
+                    }
+                } else {
+                    showError('ネットワークの切り替えに失敗しました');
+                }
+            }
+        }
+
+        async function sendJPYC() {
+            const recipient = document.getElementById('recipientAddress').value;
+            const amount = document.getElementById('sendAmount').value;
+
+            if (!recipient || !amount) {
+                showError('受取アドレスと送金額を入力してください');
+                return;
+            }
+
+            if (!ethers.utils.isAddress(recipient)) {
+                showError('無効なアドレスです');
+                return;
+            }
+
+            if (parseFloat(amount) <= 0) {
+                showError('送金額は0より大きい必要があります');
+                return;
+            }
+
+            if (parseFloat(amount) > parseFloat(currentBalance)) {
+                showError('残高が不足しています');
+                return;
+            }
+
+            try {
+                hideMessages();
+                const sendBtn = document.getElementById('sendBtn');
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> 処理中...';
+
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                const contract = new ethers.Contract(JPYC_CONTRACT, ERC20_ABI, signer);
+
+                const amountWei = ethers.utils.parseUnits(amount, 18);
+                const tx = await contract.transfer(recipient, amountWei);
+                
+                showSuccess('トランザクションを送信しました。確認を待っています...');
+                const receipt = await tx.wait();
+                
+                const explorerUrl = NETWORKS[currentNetwork]?.blockExplorerUrls[0];
+                const txLink = `${explorerUrl}/tx/${receipt.transactionHash}`;
+                
+                showSuccess('送金が完了しました！', txLink);
+                
+                // Reset form
+                document.getElementById('recipientAddress').value = '';
+                document.getElementById('sendAmount').value = '';
+                
+                // Update balance
+                await updateBalance();
+                
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> 送金する';
+            } catch (err) {
+                showError('送金に失敗しました: ' + (err.reason || err.message));
+                const sendBtn = document.getElementById('sendBtn');
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> 送金する';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMsg').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('errorMsg').classList.add('hidden');
+            }, 5000);
+        }
+
+        function showSuccess(message, txUrl = null) {
+            document.getElementById('successText').textContent = message;
+            const txLink = document.getElementById('txLink');
+            if (txUrl) {
+                txLink.href = txUrl;
+                txLink.classList.remove('hidden');
+            } else {
+                txLink.classList.add('hidden');
+            }
+            document.getElementById('successMsg').classList.remove('hidden');
+        }
+
+        function hideMessages() {
+            document.getElementById('errorMsg').classList.add('hidden');
+            document.getElementById('successMsg').classList.add('hidden');
+        }
+
+        // Connect button handler
+        document.getElementById('connectBtn').addEventListener('click', connectWallet);
+
+        // Copy address handler
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentAccount);
+            showSuccess('アドレスをコピーしました');
+            setTimeout(() => {
+                document.getElementById('successMsg').classList.add('hidden');
+            }, 2000);
+        });
     </script>
 </body>
 </html>
