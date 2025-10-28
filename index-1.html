@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPYC ウォレット - 残高チェッカー & 送金ツール</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div id="app" class="p-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h1 class="text-3xl font-bold text-indigo-600 flex items-center gap-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                        JPYC ウォレット
+                    </h1>
+                    <button id="connectBtn" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                        ウォレット接続
+                    </button>
+                </div>
+
+                <div id="connectedWallet" class="bg-indigo-50 p-4 rounded-lg hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-sm text-gray-600">接続中のウォレット</p>
+                        <button id="copyBtn" class="text-indigo-600 hover:text-indigo-700 flex items-center gap-1 text-sm">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            コピー
+                        </button>
+                    </div>
+                    <p id="walletAddress" class="font-mono text-sm"></p>
+                </div>
+            </div>
+
+            <!-- Main Content (Hidden until wallet connected) -->
+            <div id="mainContent" class="hidden">
+                <!-- Network Switcher -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold mb-4">ネットワーク選択</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button onclick="switchNetwork('ethereum')" id="btn-ethereum" class="network-btn p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-300 transition">
+                            <div class="text-center">
+                                <p class="font-semibold">Ethereum</p>
+                            </div>
+                        </button>
+                        <button onclick="switchNetwork('polygon')" id="btn-polygon" class="network-btn p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-300 transition">
+                            <div class="text-center">
+                                <p class="font-semibold">Polygon</p>
+                            </div>
+                        </button>
+                        <button onclick="switchNetwork('avalanche')" id="btn-avalanche" class="network-btn p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-300 transition">
+                            <div class="text-center">
+                                <p class="font-semibold">Avalanche</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Balance Display -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold">JPYC残高</h2>
+                        <button id="refreshBtn" onclick="refreshBalance()" class="text-indigo-600 hover:text-indigo-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <p id="balance" class="text-5xl font-bold text-indigo-600">0.00</p>
+                        <p class="text-gray-600 mt-2">JPYC</p>
+                        <p id="balanceYen" class="text-sm text-gray-500 mt-1">≈ ¥0</p>
+                    </div>
+                </div>
+
+                <!-- Send Form -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                        JPYC送金
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">受取アドレス</label>
+                            <input type="text" id="recipientAddress" placeholder="0x..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">送金額 (JPYC)</label>
+                            <input type="number" id="sendAmount" placeholder="0.00" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <p id="availableBalance" class="text-sm text-gray-500 mt-1">利用可能: 0.00 JPYC</p>
+                        </div>
+
+                        <button id="sendBtn" onclick="sendJPYC()" class="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            送金する
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div id="errorMsg" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 hidden">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p id="errorText"></p>
+                    </div>
+                </div>
+
+                <div id="successMsg" class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4 hidden">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <p id="successText"></p>
+                            <a id="txLink" href="#" target="_blank" rel="noopener noreferrer" class="text-sm underline mt-1 hidden">トランザクションを確認</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-4">JPYCについて</h2>
+                <div class="space-y-2 text-sm text-gray-600">
+                    <p>✓ 1 JPYC = 1円の日本円連動ステーブルコイン</p>
+                    <p>✓ Ethereum、Polygon、Avalancheの3チェーンに対応</p>
+                    <p>✓ 手数料無料で発行・償還可能（ガス代は別途必要）</p>
+                    <p>✓ 2025年10月27日に正式発行開始</p>
+                    <p class="mt-4 text-xs">
+                        <strong>コントラクトアドレス:</strong><br>
+                        <span class="font-mono">0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JPYC Contract Address (same across all chains)
+        const JPYC_CONTRACT = '0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29';
+
+        // Supported networks
+        const NETWORKS = {
+            ethereum: {
+                chainId: '0x1',
+                chainName: 'Ethereum Mainnet',
+                rpcUrls: ['https://eth.llamarpc.com'],
+                nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+                blockExplorerUrls: ['https://etherscan.io']
+            },
+            polygon: {
+                chainId: '0x89',
+                chainName: 'Polygon Mainnet',
+                rpcUrls: ['https://polygon-rpc.com'],
+                nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+                blockExplorerUrls: ['https://polygonscan.com']
+            },
+            avalanche: {
+                chainId: '0xa86a',
+                chainName: 'Avalanche C-Chain',
+                rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+                nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+                blockExplorerUrls: ['https://snowtrace.io']
+            }
+        };
+
+        // ERC20 ABI for JPYC
+        const ERC20_ABI = [
+            'function balanceOf(address) view returns (uint256)',
+            'function transfer(address to, uint256 amount) returns (bool)',
+            'function symbol() view returns (string)',
+            'function decimals() view returns (uint8)'
+        ];
+
+        let currentAccount = '';
+        let currentNetwork = '';
+        let currentBalance = '0';
+
+        // Initialize
+        window.addEventListener('load', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                checkConnection();
+                window.ethereum.on('accountsChanged', handleAccountsChanged);
+                window.ethereum.on('chainChanged', () => window.location.reload());
+            }
+        });
+
+        async function checkConnection() {
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    handleAccountsChanged(accounts);
+                }
+            } catch (err) {
+                console.error('Error checking connection:', err);
+            }
+        }
+
+        async function handleAccountsChanged(accounts) {
+            if (accounts.length > 0) {
+                currentAccount = accounts[0];
+                document.getElementById('walletAddress').textContent = currentAccount;
+                document.getElementById('connectedWallet').classList.remove('hidden');
+                document.getElementById('connectBtn').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                await updateNetwork();
+                await updateBalance();
+            } else {
+                currentAccount = '';
+                document.getElementById('connectedWallet').classList.add('hidden');
+                document.getElementById('connectBtn').classList.remove('hidden');
+                document.getElementById('mainContent').classList.add('hidden');
+            }
+        }
+
+        async function connectWallet() {
+            if (typeof window.ethereum === 'undefined') {
+                showError('MetaMaskがインストールされていません。MetaMaskをインストールしてください。');
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                handleAccountsChanged(accounts);
+            } catch (err) {
+                showError('ウォレット接続に失敗しました: ' + err.message);
+            }
+        }
+
+        async function updateNetwork() {
+            try {
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                const network = Object.keys(NETWORKS).find(
+                    key => NETWORKS[key].chainId === chainId
+                );
+                currentNetwork = network || 'unknown';
+                
+                // Update UI
+                document.querySelectorAll('.network-btn').forEach(btn => {
+                    btn.classList.remove('border-indigo-600', 'bg-indigo-50');
+                    btn.classList.add('border-gray-200');
+                });
+                
+                if (network) {
+                    const btn = document.getElementById(`btn-${network}`);
+                    btn.classList.remove('border-gray-200');
+                    btn.classList.add('border-indigo-600', 'bg-indigo-50');
+                }
+            } catch (err) {
+                console.error('Error getting network:', err);
+            }
+        }
+
+        async function updateBalance() {
+            if (!window.ethereum || !currentAccount) return;
+
+            try {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const contract = new ethers.Contract(JPYC_CONTRACT, ERC20_ABI, provider);
+                const balance = await contract.balanceOf(currentAccount);
+                currentBalance = ethers.utils.formatUnits(balance, 18);
+                
+                document.getElementById('balance').textContent = parseFloat(currentBalance).toFixed(2);
+                document.getElementById('balanceYen').textContent = `≈ ¥${Math.floor(parseFloat(currentBalance))}`;
+                document.getElementById('availableBalance').textContent = `利用可能: ${parseFloat(currentBalance).toFixed(2)} JPYC`;
+            } catch (err) {
+                console.error('Error fetching balance:', err);
+                currentBalance = '0';
+            }
+        }
+
+        async function refreshBalance() {
+            const btn = document.getElementById('refreshBtn');
+            btn.querySelector('svg').classList.add('animate-spin');
+            await updateBalance();
+            setTimeout(() => {
+                btn.querySelector('svg').classList.remove('animate-spin');
+            }, 500);
+        }
+
+        async function switchNetwork(networkKey) {
+            if (!window.ethereum) return;
+
+            try {
+                const network = NETWORKS[networkKey];
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: network.chainId }],
+                });
+                currentNetwork = networkKey;
+                await updateBalance();
+            } catch (err) {
+                if (err.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [NETWORKS[networkKey]],
+                        });
+                    } catch (addError) {
+                        showError('ネットワークの追加に失敗しました');
+                    }
+                } else {
+                    showError('ネットワークの切り替えに失敗しました');
+                }
+            }
+        }
+
+        async function sendJPYC() {
+            const recipient = document.getElementById('recipientAddress').value;
+            const amount = document.getElementById('sendAmount').value;
+
+            if (!recipient || !amount) {
+                showError('受取アドレスと送金額を入力してください');
+                return;
+            }
+
+            if (!ethers.utils.isAddress(recipient)) {
+                showError('無効なアドレスです');
+                return;
+            }
+
+            if (parseFloat(amount) <= 0) {
+                showError('送金額は0より大きい必要があります');
+                return;
+            }
+
+            if (parseFloat(amount) > parseFloat(currentBalance)) {
+                showError('残高が不足しています');
+                return;
+            }
+
+            try {
+                hideMessages();
+                const sendBtn = document.getElementById('sendBtn');
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> 処理中...';
+
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                const contract = new ethers.Contract(JPYC_CONTRACT, ERC20_ABI, signer);
+
+                const amountWei = ethers.utils.parseUnits(amount, 18);
+                const tx = await contract.transfer(recipient, amountWei);
+                
+                showSuccess('トランザクションを送信しました。確認を待っています...');
+                const receipt = await tx.wait();
+                
+                const explorerUrl = NETWORKS[currentNetwork]?.blockExplorerUrls[0];
+                const txLink = `${explorerUrl}/tx/${receipt.transactionHash}`;
+                
+                showSuccess('送金が完了しました！', txLink);
+                
+                // Reset form
+                document.getElementById('recipientAddress').value = '';
+                document.getElementById('sendAmount').value = '';
+                
+                // Update balance
+                await updateBalance();
+                
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> 送金する';
+            } catch (err) {
+                showError('送金に失敗しました: ' + (err.reason || err.message));
+                const sendBtn = document.getElementById('sendBtn');
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> 送金する';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMsg').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('errorMsg').classList.add('hidden');
+            }, 5000);
+        }
+
+        function showSuccess(message, txUrl = null) {
+            document.getElementById('successText').textContent = message;
+            const txLink = document.getElementById('txLink');
+            if (txUrl) {
+                txLink.href = txUrl;
+                txLink.classList.remove('hidden');
+            } else {
+                txLink.classList.add('hidden');
+            }
+            document.getElementById('successMsg').classList.remove('hidden');
+        }
+
+        function hideMessages() {
+            document.getElementById('errorMsg').classList.add('hidden');
+            document.getElementById('successMsg').classList.add('hidden');
+        }
+
+        // Connect button handler
+        document.getElementById('connectBtn').addEventListener('click', connectWallet);
+
+        // Copy address handler
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentAccount);
+            showSuccess('アドレスをコピーしました');
+            setTimeout(() => {
+                document.getElementById('successMsg').classList.add('hidden');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
