@@ -1,30 +1,17 @@
 {
-  "name": "jpyc-wallet",
+  "name": "jpyc-survey",
   "version": "1.0.0",
-  "description": "JPYC残高チェック & 送金ツール - Polygon/Ethereum/Avalanche対応",
-  "main": "server.js",
+  "description": "JPYC Survey - アンケートに答えてJPYCを獲得",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "npx http-server -p 8080",
+    "serve": "npx serve ."
   },
   "keywords": [
     "jpyc",
-    "wallet",
+    "survey",
     "web3",
-    "ethereum",
-    "polygon",
-    "avalanche",
-    "cryptocurrency"
+    "stablecoin"
   ],
   "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  }
+  "license": "MIT"
 }
