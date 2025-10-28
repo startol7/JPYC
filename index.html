@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPYC Survey - アンケートに答えてJPYCをゲット！</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        .jpyc-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function App() {
+            const [currentView, setCurrentView] = useState('dashboard');
+            const [userBalance, setUserBalance] = useState(0);
+            const [completedSurveys, setCompletedSurveys] = useState([]);
+            const [selectedSurvey, setSelectedSurvey] = useState(null);
+            const [surveyAnswers, setSurveyAnswers] = useState({});
+            const [walletAddress, setWalletAddress] = useState('');
+            const [isConnected, setIsConnected] = useState(false);
+
+            const surveys = [
+                {
+                    id: 1,
+                    title: "Web3に関する意識調査",
+                    reward: 50,
+                    estimatedTime: "3分",
+                    category: "テクノロジー",
+                    questions: [
+                        {
+                            id: 'q1',
+                            question: "暗号資産を保有していますか？",
+                            type: 'single',
+                            options: ["はい", "いいえ", "過去に保有していた"]
+                        },
+                        {
+                            id: 'q2',
+                            question: "JPYCを使ったことがありますか？",
+                            type: 'single',
+                            options: ["頻繁に使う", "たまに使う", "使ったことがない", "JPYCを知らない"]
+                        },
+                        {
+                            id: 'q3',
+                            question: "ステーブルコインの主な利用目的は？（複数選択可）",
+                            type: 'multiple',
+                            options: ["送金", "決済", "DeFi運用", "価値の保存", "その他"]
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "オンラインショッピング習慣調査",
+                    reward: 30,
+                    estimatedTime: "2分",
+                    category: "ライフスタイル",
+                    questions: [
+                        {
+                            id: 'q1',
+                            question: "月にどのくらいオンラインショッピングをしますか？",
+                            type: 'single',
+                            options: ["週に複数回", "週1回程度", "月2-3回", "月1回以下"]
+                        },
+                        {
+                            id: 'q2',
+                            question: "よく利用するECサイトは？",
+                            type: 'multiple',
+                            options: ["Amazon", "楽天", "Yahoo!ショッピング", "メルカリ", "その他"]
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "リモートワークに関するアンケート",
+                    reward: 40,
+                    estimatedTime: "3分",
+                    category: "働き方",
+                    questions: [
+                        {
+                            id: 'q1',
+                            question: "現在の勤務形態は？",
+                            type: 'single',
+                            options: ["完全リモート", "ハイブリッド", "完全出社", "フリーランス"]
+                        },
+                        {
+                            id: 'q2',
+                            question: "理想的な出社頻度は？",
+                            type: 'single',
+                            options: ["完全在宅", "週1-2日出社", "週3-4日出社", "毎日出社"]
+                        }
+                    ]
+                }
+            ];
+
+            const connectWallet = () => {
+                // ウォレット接続のシミュレーション
+                const mockAddress = "0x" + Math.random().toString(16).substr(2, 40);
+                setWalletAddress(mockAddress);
+                setIsConnected(true);
+            };
+
+            const startSurvey = (survey) => {
+                if (!isConnected) {
+                    alert("まずウォレットを接続してください");
+                    return;
+                }
+                setSelectedSurvey(survey);
+                setCurrentView('survey');
+                setSurveyAnswers({});
+            };
+
+            const handleAnswer = (questionId, answer) => {
+                setSurveyAnswers(prev => ({
+                    ...prev,
+                    [questionId]: answer
+                }));
+            };
+
+            const completeSurvey = () => {
+                const allQuestionsAnswered = selectedSurvey.questions.every(
+                    q => surveyAnswers[q.id] && surveyAnswers[q.id].length > 0
+                );
+
+                if (!allQuestionsAnswered) {
+                    alert("すべての質問に回答してください");
+                    return;
+                }
+
+                // 報酬を追加
+                setUserBalance(prev => prev + selectedSurvey.reward);
+                setCompletedSurveys(prev => [...prev, selectedSurvey.id]);
+                
+                // トランザクション通知
+                alert(`🎉 アンケート完了！${selectedSurvey.reward} JPYCを獲得しました！`);
+                
+                setCurrentView('dashboard');
+                setSelectedSurvey(null);
+            };
+
+            const Header = () => (
+                <div className="jpyc-gradient text-white p-4 shadow-lg">
+                    <div className="container mx-auto flex justify-between items-center">
+                        <div className="flex items-center space-x-3">
+                            <div className="text-2xl font-bold">💰</div>
+                            <h1 className="text-2xl font-bold">JPYC Survey</h1>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            {isConnected ? (
+                                <>
+                                    <div className="bg-white/20 rounded-lg px-4 py-2">
+                                        <span className="text-sm">残高:</span>
+                                        <span className="text-xl font-bold ml-2">{userBalance} JPYC</span>
+                                    </div>
+                                    <div className="bg-white/20 rounded-lg px-4 py-2">
+                                        <span className="text-sm">
+                                            {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                                        </span>
+                                    </div>
+                                </>
+                            ) : (
+                                <button 
+                                    onClick={connectWallet}
+                                    className="bg-white text-purple-600 px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition"
+                                >
+                                    ウォレット接続
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const Dashboard = () => (
+                <div className="container mx-auto p-6">
+                    <div className="mb-8">
+                        <h2 className="text-3xl font-bold mb-2">アンケート一覧</h2>
+                        <p className="text-gray-600">アンケートに答えてJPYCを獲得しましょう！</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {surveys.map(survey => {
+                            const isCompleted = completedSurveys.includes(survey.id);
+                            return (
+                                <div key={survey.id} className="bg-white rounded-xl card-shadow p-6 hover:transform hover:scale-105 transition-all">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <span className="bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">
+                                            {survey.category}
+                                        </span>
+                                        <div className="text-right">
+                                            <div className="text-2xl font-bold text-purple-600">{survey.reward}</div>
+                                            <div className="text-xs text-gray-500">JPYC</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h3 className="text-lg font-bold mb-2">{survey.title}</h3>
+                                    <div className="flex items-center text-sm text-gray-500 mb-4">
+                                        <span>⏱ 約{survey.estimatedTime}</span>
+                                        <span className="mx-2">•</span>
+                                        <span>📝 {survey.questions.length}問</span>
+                                    </div>
+                                    
+                                    {isCompleted ? (
+                                        <button className="w-full bg-gray-200 text-gray-500 py-3 rounded-lg font-bold cursor-not-allowed">
+                                            ✅ 回答済み
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={() => startSurvey(survey)}
+                                            className="w-full jpyc-gradient text-white py-3 rounded-lg font-bold hover:opacity-90 transition"
+                                        >
+                                            アンケートを開始
+                                        </button>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="mt-12 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-8">
+                        <h3 className="text-2xl font-bold mb-4">🎯 今月の実績</h3>
+                        <div className="grid md:grid-cols-3 gap-6">
+                            <div className="bg-white rounded-lg p-4">
+                                <div className="text-3xl font-bold text-purple-600">{completedSurveys.length}</div>
+                                <div className="text-gray-600">完了したアンケート</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4">
+                                <div className="text-3xl font-bold text-purple-600">{userBalance}</div>
+                                <div className="text-gray-600">獲得したJPYC</div>
+                            </div>
+                            <div className="bg-white rounded-lg p-4">
+                                <div className="text-3xl font-bold text-purple-600">
+                                    {surveys.length - completedSurveys.length}
+                                </div>
+                                <div className="text-gray-600">残りのアンケート</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const SurveyView = () => {
+                const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+                const currentQuestion = selectedSurvey.questions[currentQuestionIndex];
+                const progress = ((currentQuestionIndex + 1) / selectedSurvey.questions.length) * 100;
+
+                const handleNext = () => {
+                    if (!surveyAnswers[currentQuestion.id] || surveyAnswers[currentQuestion.id].length === 0) {
+                        alert("回答を選択してください");
+                        return;
+                    }
+
+                    if (currentQuestionIndex < selectedSurvey.questions.length - 1) {
+                        setCurrentQuestionIndex(prev => prev + 1);
+                    } else {
+                        completeSurvey();
+                    }
+                };
+
+                const handleOptionClick = (option) => {
+                    if (currentQuestion.type === 'single') {
+                        handleAnswer(currentQuestion.id, [option]);
+                    } else {
+                        const currentAnswers = surveyAnswers[currentQuestion.id] || [];
+                        if (currentAnswers.includes(option)) {
+                            handleAnswer(currentQuestion.id, currentAnswers.filter(a => a !== option));
+                        } else {
+                            handleAnswer(currentQuestion.id, [...currentAnswers, option]);
+                        }
+                    }
+                };
+
+                return (
+                    <div className="container mx-auto p-6 max-w-2xl">
+                        <div className="bg-white rounded-xl card-shadow p-8">
+                            <div className="mb-6">
+                                <div className="flex justify-between items-center mb-2">
+                                    <h2 className="text-xl font-bold">{selectedSurvey.title}</h2>
+                                    <span className="text-purple-600 font-bold">{selectedSurvey.reward} JPYC</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                    <div className="jpyc-gradient h-2 rounded-full transition-all" style={{width: `${progress}%`}}></div>
+                                </div>
+                                <div className="text-sm text-gray-500 mt-2">
+                                    質問 {currentQuestionIndex + 1} / {selectedSurvey.questions.length}
+                                </div>
+                            </div>
+
+                            <div className="mb-8">
+                                <h3 className="text-lg font-bold mb-4">{currentQuestion.question}</h3>
+                                {currentQuestion.type === 'multiple' && (
+                                    <p className="text-sm text-gray-500 mb-4">（複数選択可）</p>
+                                )}
+                                
+                                <div className="space-y-3">
+                                    {currentQuestion.options.map(option => {
+                                        const isSelected = (surveyAnswers[currentQuestion.id] || []).includes(option);
+                                        return (
+                                            <button
+                                                key={option}
+                                                onClick={() => handleOptionClick(option)}
+                                                className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+                                                    isSelected 
+                                                        ? 'border-purple-500 bg-purple-50' 
+                                                        : 'border-gray-200 hover:border-purple-300'
+                                                }`}
+                                            >
+                                                <div className="flex items-center">
+                                                    <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${
+                                                        isSelected ? 'border-purple-500' : 'border-gray-300'
+                                                    }`}>
+                                                        {isSelected && (
+                                                            <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                                        )}
+                                                    </div>
+                                                    {option}
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <button 
+                                    onClick={() => setCurrentView('dashboard')}
+                                    className="px-6 py-3 text-gray-600 hover:text-gray-800 transition"
+                                >
+                                    中断する
+                                </button>
+                                <button 
+                                    onClick={handleNext}
+                                    className="jpyc-gradient text-white px-8 py-3 rounded-lg font-bold hover:opacity-90 transition"
+                                >
+                                    {currentQuestionIndex === selectedSurvey.questions.length - 1 ? '完了する' : '次へ'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    <Header />
+                    {currentView === 'dashboard' && <Dashboard />}
+                    {currentView === 'survey' && selectedSurvey && <SurveyView />}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "jpyc-survey",
+  "version": "1.0.0",
+  "description": "JPYC Survey - アンケートに答えてJPYCを獲得",
+  "scripts": {
+    "start": "npx http-server -p 8080",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "jpyc",
+    "survey",
+    "web3",
+    "stablecoin"
+  ],
+  "author": "",
+  "license": "MIT"
+}
