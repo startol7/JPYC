@@ -1,29 +1,205 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="JPYC Pro Wallet - 最先端のUI/UXを備えた日本円ステーブルコインJPYCウォレット">
-    <title>JPYC Pro Wallet - プレミアムウォレット体験</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Primary Meta Tags -->
+    <title>JPYC Click - 日本円ステーブルコインウォレット | JPYC送金・受取・管理</title>
+    <meta name="title" content="JPYC Click - 日本円ステーブルコインウォレット | JPYC送金・受取・管理">
+    <meta name="description" content="JPYC Clickは、日本円ステーブルコイン（JPYC）の送金・受取・管理ができる次世代ウォレットです。ワンクリックで簡単に暗号資産を管理。Polygon、Ethereum、Avalanche対応。無料で今すぐ始められます。">
+    <meta name="keywords" content="JPYC, JPYCウォレット, 日本円ステーブルコイン, 暗号資産ウォレット, 仮想通貨ウォレット, JPYC送金, JPYC受取, ブロックチェーンウォレット, Web3ウォレット, DeFi, 暗号通貨, Polygon, Ethereum">
+    <meta name="author" content="JPYC Team">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://jpyc.click">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jpyc.click">
+    <meta property="og:title" content="JPYC Click - 日本円ステーブルコインウォレット">
+    <meta property="og:description" content="ワンクリックで始まる次世代JPYCウォレット。簡単・安全・高速な暗号資産管理を今すぐ体験。">
+    <meta property="og:image" content="https://jpyc.click/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="JPYC Click">
+    <meta property="og:locale" content="ja_JP">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://jpyc.click">
+    <meta name="twitter:title" content="JPYC Click - 日本円ステーブルコインウォレット">
+    <meta name="twitter:description" content="ワンクリックで始まる次世代JPYCウォレット。簡単・安全・高速な暗号資産管理。">
+    <meta name="twitter:image" content="https://jpyc.click/twitter-image.jpg">
+    <meta name="twitter:creator" content="@jpyc_JP">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    
+    <!-- Structured Data - WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "JPYC Click",
+      "alternateName": "JPYCウォレット",
+      "url": "https://jpyc.click",
+      "description": "日本円ステーブルコイン（JPYC）の送金・受取・管理ができる次世代ウォレット",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://jpyc.click/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "JPYC Click",
+      "url": "https://jpyc.click",
+      "logo": "https://jpyc.click/logo.png",
+      "description": "日本円ステーブルコイン（JPYC）専用ウォレットサービス",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "support@jpyc.click"
+      },
+      "sameAs": [
+        "https://twitter.com/jpyc_JP",
+        "https://github.com/jcam1/jpyc"
+      ]
+    }
+    </script>
+    
+    <!-- Structured Data - WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "JPYC Click",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      },
+      "description": "日本円ステーブルコイン（JPYC）の送金・受取・管理ができる無料ウォレットアプリケーション",
+      "screenshot": "https://jpyc.click/screenshot.jpg",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1250"
+      }
+    }
+    </script>
+    
+    <!-- Structured Data - FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "JPYC Clickとは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JPYC Clickは、日本円に連動するステーブルコイン「JPYC」を簡単に送金・受取・管理できる無料のWebウォレットです。ブロックチェーン技術を活用し、安全で高速な取引を実現します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "JPYCとは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JPYCは日本円に1:1で連動する日本発のステーブルコイン（暗号資産）です。価格変動が少なく、国内外で送金や決済に利用できます。Polygon、Ethereum、Avalancheなど複数のブロックチェーンに対応しています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "JPYC Clickの利用料金はかかりますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JPYC Clickの利用は完全無料です。ただし、ブロックチェーン上での取引には少額のガス代（ネットワーク手数料）が必要になります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "どのブロックチェーンに対応していますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JPYC Clickは、Polygon、Ethereum、Avalancheの3つのブロックチェーンに対応しています。それぞれのネットワークでJPYCの送受信が可能です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "MetaMaskは必要ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、JPYC Clickを利用するにはMetaMaskなどのWeb3ウォレットが必要です。MetaMaskは無料でインストールでき、ブラウザ拡張機能として簡単に利用できます。"
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Structured Data - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://jpyc.click"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ウォレット",
+          "item": "https://jpyc.click/#wallet"
+        }
+      ]
+    }
+    </script>
     
     <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
         
         :root {
-            --primary: #667eea;
-            --primary-dark: #5568d3;
-            --secondary: #764ba2;
-            --accent: #f093fb;
-            --success: #10b981;
-            --error: #ef4444;
-            --warning: #f59e0b;
-            --info: #3b82f6;
+            --click-primary: #6366f1;
+            --click-secondary: #8b5cf6;
+            --click-accent: #ec4899;
+            --click-success: #10b981;
+            --click-warning: #f59e0b;
+            --click-error: #ef4444;
+            --gray-50: #fafafa;
+            --gray-100: #f4f4f5;
+            --gray-200: #e4e4e7;
+            --gray-300: #d4d4d8;
+            --gray-600: #52525b;
+            --gray-700: #3f3f46;
+            --gray-900: #18181b;
         }
         
         * {
@@ -34,548 +210,142 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             overflow-x: hidden;
         }
         
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Outfit', sans-serif;
         }
         
-        /* ============================================
-           ADVANCED ANIMATIONS
-        ============================================ */
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes floatSlow {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-15px) rotate(2deg);
-            }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
-        @keyframes pulse-ring {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
-            }
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
-            }
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
-            }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
-        @keyframes gradient-shift {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
-        @keyframes shimmer-slide {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
+        @keyframes clickPulse {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
         
-        @keyframes bounce-gentle {
-            0%, 100% {
-                transform: translateY(-5%);
-            }
-            50% {
-                transform: translateY(0);
-            }
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out;
         }
         
-        @keyframes slideInFromRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .animate-slideIn {
+            animation: slideIn 0.6s ease-out;
         }
         
-        @keyframes slideInFromLeft {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
         
-        @keyframes slideInFromTop {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .animate-spin {
+            animation: spin 1s linear infinite;
         }
-        
-        @keyframes slideInFromBottom {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes fadeInScale {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes rotateIn {
-            from {
-                transform: rotate(-180deg) scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: rotate(0) scale(1);
-                opacity: 1;
-            }
-        }
-        
-        /* Animation Classes */
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-float-slow {
-            animation: floatSlow 8s ease-in-out infinite;
-        }
-        
-        .animate-pulse-ring {
-            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        
-        .animate-gradient {
-            animation: gradient-shift 8s ease infinite;
-            background-size: 200% 200%;
-        }
-        
-        .animate-shimmer {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .animate-shimmer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer-slide 2s infinite;
-        }
-        
-        .animate-bounce-gentle {
-            animation: bounce-gentle 2s ease-in-out infinite;
-        }
-        
-        .animate-slide-in-right {
-            animation: slideInFromRight 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .animate-slide-in-left {
-            animation: slideInFromLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .animate-slide-in-top {
-            animation: slideInFromTop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .animate-slide-in-bottom {
-            animation: slideInFromBottom 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .animate-fade-in-scale {
-            animation: fadeInScale 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .animate-rotate-in {
-            animation: rotateIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        /* ============================================
-           GLASSMORPHISM
-        ============================================ */
         
         .glass {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .glass-dark {
-            background: rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(30px) saturate(150%);
             -webkit-backdrop-filter: blur(30px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
         
-        /* ============================================
-           NEUMORPHISM
-        ============================================ */
-        
-        .neumorphic {
-            background: #f0f0f3;
-            box-shadow: 
-                8px 8px 16px rgba(163, 177, 198, 0.6),
-                -8px -8px 16px rgba(255, 255, 255, 0.5);
-        }
-        
-        .neumorphic-inset {
-            background: #f0f0f3;
-            box-shadow: 
-                inset 6px 6px 12px rgba(163, 177, 198, 0.4),
-                inset -6px -6px 12px rgba(255, 255, 255, 0.5);
-        }
-        
-        .neumorphic-button {
-            background: linear-gradient(145deg, #ffffff, #e6e6e9);
-            box-shadow: 
-                5px 5px 10px rgba(163, 177, 198, 0.4),
-                -5px -5px 10px rgba(255, 255, 255, 0.8);
-            transition: all 0.3s ease;
-        }
-        
-        .neumorphic-button:hover {
-            box-shadow: 
-                8px 8px 16px rgba(163, 177, 198, 0.5),
-                -8px -8px 16px rgba(255, 255, 255, 0.9);
-        }
-        
-        .neumorphic-button:active {
-            box-shadow: 
-                inset 4px 4px 8px rgba(163, 177, 198, 0.4),
-                inset -4px -4px 8px rgba(255, 255, 255, 0.5);
-        }
-        
-        /* ============================================
-           GRADIENTS
-        ============================================ */
-        
-        .gradient-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .gradient-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        .gradient-error {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-        
-        .gradient-warning {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-        
-        .gradient-purple {
-            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
-        }
-        
-        .gradient-blue {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        }
-        
-        .gradient-pink {
-            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-        }
-        
-        .gradient-mesh {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
-            background-size: 400% 400%;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .gradient-text-animated {
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 4s ease infinite;
-        }
-        
-        /* ============================================
-           CARDS & CONTAINERS
-        ============================================ */
-        
-        .card-elevated {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 
-                0 20px 50px -12px rgba(0, 0, 0, 0.08),
-                0 10px 20px -8px rgba(0, 0, 0, 0.04);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .card-elevated:hover {
-            transform: translateY(-8px);
-            box-shadow: 
-                0 30px 60px -12px rgba(0, 0, 0, 0.12),
-                0 18px 36px -8px rgba(0, 0, 0, 0.08);
-        }
-        
-        .card-glow {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-        }
-        
-        .card-glow::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            padding: 2px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .card-glow:hover::before {
-            opacity: 1;
-        }
-        
-        .card-interactive {
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-        }
-        
-        .card-interactive:hover {
-            transform: translateY(-4px) scale(1.02);
-        }
-        
-        .card-interactive:active {
-            transform: translateY(-2px) scale(0.98);
-        }
-        
-        /* ============================================
-           BUTTONS
-        ============================================ */
-        
-        .btn-premium {
-            position: relative;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--click-primary) 0%, var(--click-secondary) 100%);
+            color: white;
             padding: 14px 32px;
             border-radius: 16px;
             font-weight: 600;
             font-size: 16px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
             overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        .btn-premium::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .btn-premium:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .btn-premium:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px -8px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 24px -8px rgba(99, 102, 241, 0.5);
         }
         
-        .btn-premium:active {
+        .btn-primary:active {
             transform: translateY(0);
         }
         
-        .btn-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .btn-secondary {
+            background: white;
+            color: var(--click-primary);
+            padding: 14px 32px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            border: 2px solid var(--click-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--click-primary);
             color: white;
+            transform: translateY(-2px);
         }
         
-        .btn-gradient-animated {
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-            background-size: 200% 200%;
-            animation: gradient-shift 3s ease infinite;
-            color: white;
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
         
-        .btn-outline {
-            background: transparent;
-            border: 2px solid;
-            border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
-            color: #667eea;
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
         }
         
-        .btn-outline:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        /* ============================================
-           INPUTS & FORMS
-        ============================================ */
-        
-        .input-modern {
-            position: relative;
-            width: 100%;
-        }
-        
-        .input-modern input,
-        .input-modern textarea {
+        .input-field {
             width: 100%;
             padding: 16px 20px;
-            border: 2px solid #e5e7eb;
+            border: 2px solid var(--gray-200);
             border-radius: 16px;
             font-size: 16px;
             transition: all 0.3s ease;
             background: white;
         }
         
-        .input-modern input:focus,
-        .input-modern textarea:focus {
+        .input-field:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-            transform: translateY(-2px);
+            border-color: var(--click-primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
         }
         
-        .input-modern label {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            background: white;
-            padding: 0 8px;
-        }
-        
-        .input-modern input:focus + label,
-        .input-modern input:not(:placeholder-shown) + label {
-            top: 0;
-            font-size: 12px;
-            color: #667eea;
-            font-weight: 600;
-        }
-        
-        /* ============================================
-           CUSTOM TOGGLE SWITCH
-        ============================================ */
-        
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 56px;
-            height: 28px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #cbd5e1;
-            transition: 0.4s;
-            border-radius: 28px;
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 3px;
-            bottom: 3px;
-            background: white;
-            transition: 0.4s;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        
-        input:checked + .toggle-slider {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(28px);
-        }
-        
-        /* ============================================
-           BADGES & LABELS
-        ============================================ */
-        
-        .badge-modern {
+        .badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -583,929 +353,603 @@
             border-radius: 12px;
             font-size: 13px;
             font-weight: 600;
-            letter-spacing: 0.3px;
         }
         
-        .badge-glow {
-            position: relative;
-            animation: pulse-ring 2s infinite;
-        }
-        
-        /* ============================================
-           PROGRESS BAR
-        ============================================ */
-        
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 8px;
-            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .progress-bar-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: shimmer-slide 2s infinite;
-        }
-        
-        /* ============================================
-           SKELETON LOADER
-        ============================================ */
-        
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer-slide 1.5s infinite;
-            border-radius: 8px;
-        }
-        
-        /* ============================================
-           TOOLTIPS
-        ============================================ */
-        
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .tooltip .tooltip-text {
-            visibility: hidden;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            text-align: center;
-            padding: 8px 12px;
-            border-radius: 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            font-size: 12px;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-        
-        .tooltip .tooltip-text::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
-        }
-        
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-        
-        /* ============================================
-           TABS
-        ============================================ */
-        
-        .tab-modern {
-            position: relative;
-            padding: 14px 24px;
+        .tab-btn {
+            padding: 12px 24px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-radius: 12px 12px 0 0;
+            border-radius: 12px;
+            font-weight: 500;
+            color: var(--gray-600);
         }
         
-        .tab-modern::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transform: translateX(-50%);
-            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            border-radius: 3px 3px 0 0;
+        .tab-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--click-primary);
         }
         
-        .tab-modern:hover::after {
-            width: 80%;
-        }
-        
-        .tab-modern.active::after {
-            width: 100%;
-        }
-        
-        .tab-modern.active {
-            background: linear-gradient(to bottom, rgba(102, 126, 234, 0.08) 0%, transparent 100%);
-            color: #667eea;
-            font-weight: 600;
-        }
-        
-        /* ============================================
-           FLOATING ELEMENTS
-        ============================================ */
-        
-        .floating-element {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.3;
-            pointer-events: none;
-        }
-        
-        .floating-1 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            top: -100px;
-            right: -100px;
-            animation: float 8s ease-in-out infinite;
-        }
-        
-        .floating-2 {
-            width: 250px;
-            height: 250px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            bottom: -80px;
-            left: -80px;
-            animation: floatSlow 10s ease-in-out infinite;
-        }
-        
-        .floating-3 {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            top: 50%;
-            left: 50%;
-            animation: float 12s ease-in-out infinite;
-        }
-        
-        /* ============================================
-           SCROLLBAR
-        ============================================ */
-        
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #5568d3, #6a3f8f);
-        }
-        
-        /* ============================================
-           TOAST NOTIFICATIONS
-        ============================================ */
-        
-        .toast-container {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-width: 420px;
+        .tab-btn.active {
+            background: var(--click-primary);
+            color: white;
         }
         
         .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
             background: white;
             border-radius: 16px;
             padding: 16px 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
             gap: 12px;
-            animation: slideInFromRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: slideIn 0.4s ease;
+            z-index: 9999;
+            max-width: 400px;
         }
         
-        .toast-icon {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* ============================================
-           MODAL
-        ============================================ */
-        
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 9998;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeInScale 0.3s ease;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            padding: 32px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        /* ============================================
-           UTILITY CLASSES
-        ============================================ */
-        
-        .text-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .gradient-text {
+            background: linear-gradient(135deg, var(--click-primary), var(--click-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .shadow-premium {
-            box-shadow: 
-                0 20px 50px -12px rgba(0, 0, 0, 0.08),
-                0 10px 20px -8px rgba(0, 0, 0, 0.04);
+        .click-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--click-primary), var(--click-secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: clickPulse 2s infinite;
         }
-        
-        .shadow-premium-lg {
-            box-shadow: 
-                0 30px 60px -12px rgba(0, 0, 0, 0.12),
-                0 18px 36px -8px rgba(0, 0, 0, 0.08);
-        }
-        
-        .border-gradient {
-            border: 2px solid transparent;
-            background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, #667eea, #764ba2) border-box;
-        }
-        
-        /* ============================================
-           RESPONSIVE
-        ============================================ */
         
         @media (max-width: 768px) {
-            .toast-container {
+            .toast {
                 right: 12px;
                 left: 12px;
                 max-width: none;
             }
-            
-            .floating-element {
-                display: none;
-            }
-            
-            .card-elevated:hover {
-                transform: translateY(-4px);
-            }
         }
         
-        /* ============================================
-           DARK MODE SUPPORT (準備)
-        ============================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
         
-        @media (prefers-color-scheme: dark) {
-            /* Dark mode styles can be added here */
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--click-primary), var(--click-secondary));
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--click-primary);
         }
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen relative overflow-x-hidden">
-    
-    <!-- Floating Background Elements -->
-    <div class="floating-element floating-1"></div>
-    <div class="floating-element floating-2"></div>
-    <div class="floating-element floating-3"></div>
+<body itemscope itemtype="https://schema.org/WebPage">
     
     <!-- Toast Container -->
-    <div id="toastContainer" class="toast-container"></div>
+    <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
     
     <!-- Main Container -->
-    <div class="relative z-10 p-4 md:p-6 lg:p-8">
+    <main class="min-h-screen p-4 md:p-6 lg:p-8">
         <div class="max-w-7xl mx-auto">
             
             <!-- Header -->
-            <header class="card-elevated p-6 mb-6 animate-slide-in-top">
+            <header class="glass-card rounded-3xl p-6 mb-6 animate-fadeIn" role="banner">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                    <!-- Logo & Title -->
+                    <!-- Logo & Branding -->
                     <div class="flex items-center gap-4">
-                        <div class="relative">
-                            <div class="absolute inset-0 bg-gradient-primary rounded-2xl blur-xl opacity-50 animate-pulse-ring"></div>
-                            <div class="relative p-4 gradient-primary rounded-2xl animate-float">
-                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                                </svg>
-                            </div>
+                        <div class="click-logo" role="img" aria-label="JPYC Click ロゴ">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                            </svg>
                         </div>
                         <div>
-                            <h1 class="text-3xl md:text-4xl font-bold gradient-text-animated">JPYC Pro Wallet</h1>
-                            <p class="text-gray-600 text-sm mt-1 font-medium">プレミアムウォレット体験</p>
+                            <h1 class="text-3xl md:text-4xl font-bold gradient-text">JPYC Click</h1>
+                            <p class="text-gray-600 text-sm font-medium">ワンクリックで始まるウォレット体験</p>
                         </div>
                     </div>
                     
-                    <!-- Connection Status & Button -->
+                    <!-- Connection -->
                     <div class="flex items-center gap-3">
-                        <div id="networkDisplay" class="hidden">
-                            <span class="badge-modern badge-glow px-4 py-2" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1)); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.3);">
-                                <span class="w-2 h-2 bg-purple-500 rounded-full animate-pulse-ring"></span>
-                                <span id="networkName" class="font-semibold">Polygon</span>
-                            </span>
+                        <div id="networkBadge" class="hidden badge" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                            <span class="w-2 h-2 bg-purple-500 rounded-full animate-pulse" role="status" aria-label="接続中"></span>
+                            <span id="networkName">Polygon</span>
                         </div>
-                        <button id="connectBtn" class="btn-premium btn-gradient-animated shadow-premium relative z-10">
-                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="connectBtn" class="btn-primary" type="button" aria-label="ウォレットに接続">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
-                            <span>ウォレット接続</span>
+                            <span>接続</span>
                         </button>
                     </div>
                 </div>
                 
                 <!-- Address Display -->
-                <div id="addressDisplay" class="hidden mt-6 p-4 glass-card rounded-2xl animate-slide-in-bottom">
-                    <div class="flex items-center justify-between">
+                <div id="addressDisplay" class="hidden mt-6 p-4 glass rounded-2xl animate-fadeIn">
+                    <div class="flex items-center justify-between flex-wrap gap-3">
                         <div class="flex items-center gap-3">
-                            <div class="p-3 gradient-blue rounded-xl shadow-lg">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center" role="img" aria-label="ウォレットアイコン">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-xs text-gray-600 font-semibold uppercase tracking-wide mb-1">接続中のアドレス</p>
-                                <p id="walletAddress" class="font-mono text-sm font-bold text-gray-900">0x0000...0000</p>
+                                <p class="text-xs text-white/80 font-semibold mb-1">接続中</p>
+                                <p id="walletAddress" class="font-mono text-sm font-bold text-white">0x0000...0000</p>
                             </div>
                         </div>
-                        <button id="copyAddressBtn" class="tooltip p-3 hover:bg-gray-100 rounded-xl transition-all duration-300 card-interactive">
-                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="copyAddressBtn" class="w-10 h-10 rounded-xl hover:bg-white/20 flex items-center justify-center transition-all" type="button" aria-label="アドレスをコピー">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                             </svg>
-                            <span class="tooltip-text">コピー</span>
                         </button>
                     </div>
                 </div>
             </header>
             
+            <!-- SEO Content Section (Hidden initially) -->
+            <article id="seoContent" class="glass-card rounded-3xl p-8 mb-6 animate-fadeIn">
+                <section>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">JPYC Clickとは？日本円ステーブルコインウォレットの決定版</h2>
+                    
+                    <div class="prose max-w-none text-gray-700 space-y-4">
+                        <p class="text-lg leading-relaxed">
+                            <strong>JPYC Click</strong>は、日本円に連動するステーブルコイン「<strong>JPYC</strong>」を簡単に送金・受取・管理できる<strong>無料のWebウォレット</strong>です。ブロックチェーン技術を活用し、従来の銀行送金よりも<strong>高速で安全な取引</strong>を実現します。
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">JPYCとは？日本発のステーブルコイン</h3>
+                        <p class="leading-relaxed">
+                            <strong>JPYC（JPY Coin）</strong>は、日本円に<strong>1:1で連動</strong>する日本発のステーブルコイン（暗号資産）です。価格変動が少なく、国内外での送金や決済に利用できます。Polygon、Ethereum、Avalancheなど複数のブロックチェーンに対応しており、<strong>24時間365日いつでも送金可能</strong>です。
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">JPYC Clickの主な機能</h3>
+                        <ul class="space-y-3 list-disc list-inside ml-4">
+                            <li class="leading-relaxed"><strong>即座に送金</strong>：数秒〜数分でJPYCを世界中に送金できます</li>
+                            <li class="leading-relaxed"><strong>QRコード受取</strong>：QRコードをスキャンするだけで簡単に受け取り</li>
+                            <li class="leading-relaxed"><strong>取引履歴管理</strong>：すべての送受金履歴を一目で確認</li>
+                            <li class="leading-relaxed"><strong>リアルタイム分析</strong>：残高推移や取引統計をグラフで可視化</li>
+                            <li class="leading-relaxed"><strong>マルチチェーン対応</strong>：Polygon、Ethereum、Avalancheに対応</li>
+                            <li class="leading-relaxed"><strong>完全無料</strong>：ウォレットの利用料金は一切不要</li>
+                        </ul>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">こんな方におすすめ</h3>
+                        <ul class="space-y-3 list-disc list-inside ml-4">
+                            <li class="leading-relaxed"><strong>暗号資産初心者</strong>：シンプルなUIで誰でも簡単に使えます</li>
+                            <li class="leading-relaxed"><strong>海外送金をする方</strong>：低コストで高速な国際送金が可能</li>
+                            <li class="leading-relaxed"><strong>DeFiユーザー</strong>：Web3アプリケーションとの連携が簡単</li>
+                            <li class="leading-relaxed"><strong>ビジネス利用</strong>：企業間決済や給与支払いにも対応</li>
+                        </ul>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">安全性・セキュリティ</h3>
+                        <p class="leading-relaxed">
+                            JPYC Clickは、<strong>256bit暗号化</strong>技術を採用し、お客様の資産を最高レベルのセキュリティで保護します。ブロックチェーン上のすべての取引は透明性が高く、改ざん不可能です。また、秘密鍵はお客様のブラウザ上でのみ管理され、サーバーには保存されません。
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">対応ブロックチェーン</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div class="p-4 bg-purple-50 rounded-xl">
+                                <h4 class="font-bold text-purple-900 mb-2">Polygon</h4>
+                                <p class="text-sm text-purple-700">低ガス代で高速取引</p>
+                            </div>
+                            <div class="p-4 bg-indigo-50 rounded-xl">
+                                <h4 class="font-bold text-indigo-900 mb-2">Ethereum</h4>
+                                <p class="text-sm text-indigo-700">最も信頼性の高いネットワーク</p>
+                            </div>
+                            <div class="p-4 bg-blue-50 rounded-xl">
+                                <h4 class="font-bold text-blue-900 mb-2">Avalanche</h4>
+                                <p class="text-sm text-blue-700">超高速トランザクション</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">始め方（3ステップ）</h3>
+                        <ol class="space-y-3 list-decimal list-inside ml-4">
+                            <li class="leading-relaxed"><strong>MetaMaskをインストール</strong>：無料のブラウザ拡張機能をインストール</li>
+                            <li class="leading-relaxed"><strong>ウォレットを接続</strong>：「接続」ボタンをクリックしてMetaMaskと連携</li>
+                            <li class="leading-relaxed"><strong>JPYCを送受金</strong>：今すぐJPYCの送金・受取を開始！</li>
+                        </ol>
+                    </div>
+                </section>
+                
+                <!-- FAQ Section -->
+                <section class="mt-12" itemscope itemtype="https://schema.org/FAQPage">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">よくある質問（FAQ）</h2>
+                    
+                    <div class="space-y-4">
+                        <details class="p-5 bg-white rounded-xl shadow-sm" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary class="font-bold text-gray-900 cursor-pointer" itemprop="name">JPYC Clickの利用料金はかかりますか？</summary>
+                            <div class="mt-3 text-gray-700 leading-relaxed" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p itemprop="text">JPYC Clickの利用は完全無料です。ただし、ブロックチェーン上での取引には少額のガス代（ネットワーク手数料）が必要になります。Polygonネットワークを利用すると、ガス代を大幅に抑えることができます。</p>
+                            </div>
+                        </details>
+                        
+                        <details class="p-5 bg-white rounded-xl shadow-sm" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary class="font-bold text-gray-900 cursor-pointer" itemprop="name">MetaMaskは必ず必要ですか？</summary>
+                            <div class="mt-3 text-gray-700 leading-relaxed" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p itemprop="text">はい、JPYC ClickはWeb3ウォレットを経由して動作するため、MetaMaskなどのウォレットが必要です。MetaMaskは無料でインストールでき、Chrome、Firefox、Braveなどのブラウザで利用できます。</p>
+                            </div>
+                        </details>
+                        
+                        <details class="p-5 bg-white rounded-xl shadow-sm" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary class="font-bold text-gray-900 cursor-pointer" itemprop="name">JPYCはどこで購入できますか？</summary>
+                            <div class="mt-3 text-gray-700 leading-relaxed" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p itemprop="text">JPYCは、JPYC公式サイトや対応する暗号資産取引所で購入できます。銀行振込やクレジットカードでの購入に対応しています。詳しくはJPYC公式サイトをご確認ください。</p>
+                            </div>
+                        </details>
+                        
+                        <details class="p-5 bg-white rounded-xl shadow-sm" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary class="font-bold text-gray-900 cursor-pointer" itemprop="name">送金にどれくらい時間がかかりますか？</summary>
+                            <div class="mt-3 text-gray-700 leading-relaxed" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p itemprop="text">ブロックチェーンの混雑状況にもよりますが、通常は数秒〜数分で完了します。Polygonネットワークを利用すると、より高速な取引が可能です。</p>
+                            </div>
+                        </details>
+                        
+                        <details class="p-5 bg-white rounded-xl shadow-sm" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary class="font-bold text-gray-900 cursor-pointer" itemprop="name">スマートフォンでも利用できますか？</summary>
+                            <div class="mt-3 text-gray-700 leading-relaxed" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p itemprop="text">はい、JPYC Clickはレスポンシブデザインを採用しており、スマートフォンやタブレットでも快適にご利用いただけます。MetaMaskのモバイルアプリと組み合わせることで、外出先でも簡単に送受金が可能です。</p>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+                
+                <!-- CTA Section -->
+                <section class="mt-12 text-center p-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl">
+                    <h2 class="text-3xl font-bold text-white mb-4">今すぐJPYC Clickを始めよう</h2>
+                    <p class="text-white/90 text-lg mb-6">無料でアカウント登録不要。ワンクリックですぐに使えます。</p>
+                    <button onclick="document.getElementById('seoContent').style.display='none'; document.getElementById('connectBtn').click();" class="btn-secondary bg-white text-indigo-600 hover:bg-indigo-50 px-8 py-4 text-lg" type="button">
+                        今すぐ始める（無料）
+                    </button>
+                </section>
+            </article>
+            
             <!-- Main Content -->
             <div id="mainContent" class="hidden">
                 
-                <!-- Tabs -->
-                <div class="card-elevated mb-6 overflow-hidden animate-slide-in-left">
-                    <div class="flex overflow-x-auto scrollbar-hide border-b border-gray-100">
-                        <button class="tab-modern active flex items-center gap-2 text-sm md:text-base" data-tab="dashboard">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Navigation Tabs -->
+                <nav class="glass-card rounded-3xl p-3 mb-6 animate-fadeIn" role="navigation" aria-label="メインナビゲーション">
+                    <div class="flex overflow-x-auto gap-2 scrollbar-hide">
+                        <button class="tab-btn active" data-tab="dashboard" type="button">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
-                            <span class="hidden sm:inline">ダッシュボード</span>
-                            <span class="sm:hidden">HOME</span>
+                            <span>ホーム</span>
                         </button>
-                        <button class="tab-modern flex items-center gap-2 text-sm md:text-base" data-tab="send">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button class="tab-btn" data-tab="send" type="button">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                             </svg>
-                            <span class="hidden sm:inline">送金</span>
-                            <span class="sm:hidden">送金</span>
+                            <span>送金</span>
                         </button>
-                        <button class="tab-modern flex items-center gap-2 text-sm md:text-base" data-tab="receive">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button class="tab-btn" data-tab="receive" type="button">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
                             </svg>
-                            <span class="hidden sm:inline">受取</span>
-                            <span class="sm:hidden">受取</span>
+                            <span>受取</span>
                         </button>
-                        <button class="tab-modern flex items-center gap-2 text-sm md:text-base" data-tab="history">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button class="tab-btn" data-tab="history" type="button">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span class="hidden sm:inline">履歴</span>
-                            <span class="sm:hidden">履歴</span>
+                            <span>履歴</span>
                         </button>
-                        <button class="tab-modern flex items-center gap-2 text-sm md:text-base" data-tab="analytics">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button class="tab-btn" data-tab="analytics" type="button">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
-                            <span class="hidden sm:inline">分析</span>
-                            <span class="sm:hidden">分析</span>
-                        </button>
-                        <button class="tab-modern flex items-center gap-2 text-sm md:text-base" data-tab="settings">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            <span class="hidden sm:inline">設定</span>
-                            <span class="sm:hidden">設定</span>
+                            <span>分析</span>
                         </button>
                     </div>
-                </div>
+                </nav>
                 
                 <!-- Dashboard Tab -->
                 <div id="dashboardTab" class="tab-content">
                     
-                    <!-- Balance Cards Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                        
-                        <!-- Main Balance Card -->
-                        <div class="lg:col-span-2 card-elevated p-8 gradient-mesh animate-gradient relative overflow-hidden animate-slide-in-right">
-                            <div class="relative z-10">
-                                <div class="flex items-center justify-between mb-6">
-                                    <div>
-                                        <p class="text-white/80 text-sm font-semibold uppercase tracking-wider mb-2">JPYC残高</p>
-                                        <div class="flex items-baseline gap-3">
-                                            <span id="mainBalance" class="text-5xl md:text-6xl font-black text-white tracking-tight">0.00</span>
-                                            <span class="text-2xl font-bold text-white/90">JPYC</span>
-                                        </div>
-                                        <p class="text-white/70 text-sm mt-3 font-medium">≈ <span id="jpyEquivalent">¥0</span> JPY</p>
-                                    </div>
-                                    <div class="glass p-4 rounded-2xl backdrop-blur-xl animate-float-slow">
-                                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                
-                                <div class="grid grid-cols-3 gap-3">
-                                    <button class="glass backdrop-blur-xl px-4 py-3 rounded-xl font-semibold text-white hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2 card-interactive" onclick="switchTab('send')">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                        </svg>
-                                        <span class="hidden sm:inline">送金</span>
-                                    </button>
-                                    <button class="glass backdrop-blur-xl px-4 py-3 rounded-xl font-semibold text-white hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2 card-interactive" onclick="switchTab('receive')">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
-                                        </svg>
-                                        <span class="hidden sm:inline">受取</span>
-                                    </button>
-                                    <button class="glass backdrop-blur-xl px-4 py-3 rounded-xl font-semibold text-white hover:bg-white/20 transition-all duration-300 flex items-center justify-center card-interactive tooltip" onclick="refreshBalance()">
-                                        <svg id="refreshIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                        </svg>
-                                        <span class="tooltip-text">更新</span>
-                                    </button>
-                                </div>
+                    <!-- Balance Card -->
+                    <section class="glass-card rounded-3xl p-8 mb-6 animate-fadeIn" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(139, 92, 246, 0.95)); backdrop-filter: blur(30px);" aria-labelledby="balance-heading">
+                        <div class="text-white">
+                            <h2 id="balance-heading" class="text-white/80 text-sm font-semibold mb-2">総残高</h2>
+                            <div class="flex items-baseline gap-3 mb-4">
+                                <span id="mainBalance" class="text-5xl md:text-6xl font-black">0.00</span>
+                                <span class="text-2xl font-bold">JPYC</span>
                             </div>
-                        </div>
-                        
-                        <!-- Stats Card -->
-                        <div class="card-elevated p-6 card-glow animate-slide-in-left" style="animation-delay: 0.1s">
-                            <h3 class="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2">
-                                <div class="w-1 h-6 gradient-primary rounded-full"></div>
-                                統計情報
-                            </h3>
+                            <p class="text-white/70 text-lg mb-6">≈ <span id="jpyEquivalent">¥0</span></p>
                             
-                            <div class="space-y-4">
-                                <div class="p-4 rounded-2xl gradient-success card-interactive">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-3">
-                                            <div class="p-2 bg-white/20 rounded-xl backdrop-blur">
-                                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-white/80 font-semibold mb-1">受取総額</p>
-                                                <p class="text-lg font-bold text-white" id="totalReceived">0 JPYC</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="p-4 rounded-2xl gradient-error card-interactive">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-3">
-                                            <div class="p-2 bg-white/20 rounded-xl backdrop-blur">
-                                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-white/80 font-semibold mb-1">送金総額</p>
-                                                <p class="text-lg font-bold text-white" id="totalSent">0 JPYC</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="p-4 rounded-2xl gradient-blue card-interactive">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-3">
-                                            <div class="p-2 bg-white/20 rounded-xl backdrop-blur">
-                                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-white/80 font-semibold mb-1">取引回数</p>
-                                                <p class="text-lg font-bold text-white" id="transactionCount">0回</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button class="glass p-4 rounded-xl hover:bg-white/20 transition-all flex flex-col items-center gap-2" onclick="switchTab('send')" type="button" aria-label="送金画面へ移動">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
+                                    <span class="text-sm font-semibold">送金</span>
+                                </button>
+                                <button class="glass p-4 rounded-xl hover:bg-white/20 transition-all flex flex-col items-center gap-2" onclick="switchTab('receive')" type="button" aria-label="受取画面へ移動">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
+                                    </svg>
+                                    <span class="text-sm font-semibold">受取</span>
+                                </button>
+                                <button class="glass p-4 rounded-xl hover:bg-white/20 transition-all flex flex-col items-center gap-2" onclick="refreshBalance()" type="button" aria-label="残高を更新">
+                                    <svg id="refreshIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    <span class="text-sm font-semibold">更新</span>
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </section>
                     
-                    <!-- Feature Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                        <div class="card-elevated p-6 card-glow card-interactive animate-slide-in-bottom" style="animation-delay: 0.2s">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="p-3 gradient-purple rounded-2xl shadow-lg">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    <!-- Stats Grid -->
+                    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" aria-label="取引統計">
+                        <article class="card animate-fadeIn">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center" role="img" aria-label="受取アイコン">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-lg">高速送金</h4>
-                                    <p class="text-xs text-gray-600 font-medium">数秒で完了</p>
+                                    <h3 class="text-sm text-gray-600 font-medium">受取総額</h3>
+                                    <p class="text-xl font-bold text-gray-900" id="totalReceived">0 JPYC</p>
                                 </div>
                             </div>
-                            <p class="text-sm text-gray-700 leading-relaxed">ブロックチェーン技術により、即座に送金を完了します。</p>
-                        </div>
+                        </article>
                         
-                        <div class="card-elevated p-6 card-glow card-interactive animate-slide-in-bottom" style="animation-delay: 0.3s">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="p-3 gradient-success rounded-2xl shadow-lg">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        <article class="card animate-fadeIn" style="animation-delay: 0.1s">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center" role="img" aria-label="送金アイコン">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-lg">安全性</h4>
-                                    <p class="text-xs text-gray-600 font-medium">256bit暗号化</p>
+                                    <h3 class="text-sm text-gray-600 font-medium">送金総額</h3>
+                                    <p class="text-xl font-bold text-gray-900" id="totalSent">0 JPYC</p>
                                 </div>
                             </div>
-                            <p class="text-sm text-gray-700 leading-relaxed">最高レベルのセキュリティで資産を保護します。</p>
-                        </div>
+                        </article>
                         
-                        <div class="card-elevated p-6 card-glow card-interactive animate-slide-in-bottom" style="animation-delay: 0.4s">
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="p-3 gradient-pink rounded-2xl shadow-lg">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        <article class="card animate-fadeIn" style="animation-delay: 0.2s">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center" role="img" aria-label="取引回数アイコン">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-lg">詳細分析</h4>
-                                    <p class="text-xs text-gray-600 font-medium">リアルタイム</p>
+                                    <h3 class="text-sm text-gray-600 font-medium">取引回数</h3>
+                                    <p class="text-xl font-bold text-gray-900" id="transactionCount">0回</p>
                                 </div>
                             </div>
-                            <p class="text-sm text-gray-700 leading-relaxed">取引履歴を視覚的に分析できます。</p>
-                        </div>
-                    </div>
+                        </article>
+                    </section>
                     
                     <!-- Recent Transactions -->
-                    <div class="card-elevated p-6 animate-slide-in-bottom" style="animation-delay: 0.5s">
+                    <section class="card animate-fadeIn" style="animation-delay: 0.3s" aria-labelledby="recent-transactions-heading">
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
-                                <div class="w-1 h-8 gradient-primary rounded-full"></div>
-                                最近の取引
-                            </h3>
-                            <button class="text-sm font-semibold text-transparent bg-clip-text gradient-primary hover:opacity-80 transition-opacity" onclick="switchTab('history')">
+                            <h2 id="recent-transactions-heading" class="text-xl font-bold text-gray-900">最近の取引</h2>
+                            <button class="text-sm font-semibold gradient-text hover:opacity-80 transition-opacity" onclick="switchTab('history')" type="button">
                                 すべて表示 →
                             </button>
                         </div>
                         
-                        <div id="recentTransactions" class="space-y-3">
-                            <div class="text-center py-16 text-gray-500">
-                                <div class="inline-block p-6 rounded-3xl bg-gradient-to-br from-gray-50 to-gray-100 mb-4">
-                                    <svg class="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div id="recentTransactions">
+                            <div class="text-center py-12">
+                                <div class="inline-block p-6 rounded-2xl bg-gray-50 mb-4">
+                                    <svg class="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
                                 </div>
                                 <p class="font-bold text-lg text-gray-700 mb-2">取引履歴がありません</p>
-                                <p class="text-sm text-gray-500 mb-6">最初の取引を始めましょう！</p>
-                                <button class="btn-premium btn-gradient inline-flex items-center gap-2" onclick="switchTab('send')">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                    </svg>
-                                    最初の送金を行う
-                                </button>
+                                <p class="text-sm text-gray-500">最初の取引を始めましょう！</p>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
                 
                 <!-- Send Tab -->
                 <div id="sendTab" class="tab-content hidden">
                     <div class="max-w-2xl mx-auto">
-                        <div class="card-elevated p-8 animate-fade-in-scale">
+                        <section class="card animate-fadeIn" aria-labelledby="send-heading">
                             <div class="text-center mb-8">
-                                <div class="inline-block relative mb-6">
-                                    <div class="absolute inset-0 gradient-primary rounded-3xl blur-2xl opacity-30 animate-pulse-ring"></div>
-                                    <div class="relative p-5 gradient-primary rounded-3xl">
-                                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                        </svg>
-                                    </div>
+                                <div class="inline-block p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 mb-4" role="img" aria-label="送金アイコン">
+                                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
                                 </div>
-                                <h2 class="text-3xl font-bold text-gray-900 mb-3 gradient-text-animated">JPYC送金</h2>
-                                <p class="text-gray-600 font-medium">受取アドレスと金額を入力してください</p>
+                                <h2 id="send-heading" class="text-3xl font-bold text-gray-900 mb-2">JPYC送金</h2>
+                                <p class="text-gray-600">受取アドレスと金額を入力してください</p>
                             </div>
                             
                             <form id="sendForm" class="space-y-6">
-                                <div class="input-modern">
-                                    <input 
-                                        type="text" 
-                                        id="recipientAddress" 
-                                        placeholder=" "
-                                        required
-                                    >
-                                    <label>受取アドレス</label>
+                                <div>
+                                    <label for="recipientAddress" class="block text-sm font-semibold text-gray-700 mb-2">受取アドレス</label>
+                                    <input type="text" id="recipientAddress" class="input-field" placeholder="0x..." required aria-required="true">
                                 </div>
                                 
-                                <div class="input-modern">
-                                    <input 
-                                        type="number" 
-                                        id="sendAmount" 
-                                        placeholder=" " 
-                                        step="0.01"
-                                        min="0"
-                                        required
-                                    >
-                                    <label>送金額 (JPYC)</label>
-                                    <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-bold gradient-primary text-white rounded-lg hover:opacity-90 transition" onclick="setMaxAmount()">
-                                        MAX
-                                    </button>
+                                <div>
+                                    <label for="sendAmount" class="block text-sm font-semibold text-gray-700 mb-2">送金額 (JPYC)</label>
+                                    <div class="relative">
+                                        <input type="number" id="sendAmount" class="input-field" placeholder="0.00" step="0.01" min="0" required aria-required="true">
+                                        <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 px-3 py-1 text-xs font-bold bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg hover:opacity-90 transition" onclick="setMaxAmount()" aria-label="最大額を入力">
+                                            MAX
+                                        </button>
+                                    </div>
                                 </div>
                                 
-                                <div class="input-modern">
-                                    <textarea 
-                                        id="sendMemo" 
-                                        rows="3" 
-                                        placeholder=" "
-                                    ></textarea>
-                                    <label>メモ（オプション）</label>
+                                <div>
+                                    <label for="sendMemo" class="block text-sm font-semibold text-gray-700 mb-2">メモ（オプション）</label>
+                                    <textarea id="sendMemo" class="input-field" rows="3" placeholder="メモを入力..." aria-label="取引メモ"></textarea>
                                 </div>
                                 
-                                <!-- Preview -->
-                                <div class="glass-card p-6 rounded-2xl space-y-3">
-                                    <h4 class="font-bold text-gray-900 mb-4 text-lg">取引概要</h4>
+                                <!-- Summary -->
+                                <div class="p-6 rounded-2xl bg-gray-50 space-y-3" role="region" aria-labelledby="transaction-summary">
+                                    <h3 id="transaction-summary" class="font-bold text-gray-900 text-lg mb-4">取引概要</h3>
                                     <div class="flex justify-between text-sm">
-                                        <span class="text-gray-600 font-medium">送金額</span>
+                                        <span class="text-gray-600">送金額</span>
                                         <span class="font-bold text-gray-900"><span id="previewAmount">0</span> JPYC</span>
                                     </div>
                                     <div class="flex justify-between text-sm">
-                                        <span class="text-gray-600 font-medium">ガス代（概算）</span>
+                                        <span class="text-gray-600">ガス代（概算）</span>
                                         <span class="font-bold text-gray-900">~0.001 ETH</span>
                                     </div>
-                                    <div class="border-t-2 border-gray-200 pt-3 flex justify-between">
-                                        <span class="font-bold text-gray-900 text-lg">合計</span>
+                                    <div class="border-t-2 border-gray-200 pt-3 flex justify-between items-center">
+                                        <span class="font-bold text-gray-900">合計</span>
                                         <span class="font-bold text-2xl gradient-text"><span id="previewTotal">0</span> JPYC</span>
                                     </div>
                                 </div>
                                 
-                                <button 
-                                    type="submit" 
-                                    class="w-full btn-premium btn-gradient-animated text-lg py-4 shadow-premium-lg"
-                                >
-                                    <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                    </svg>
+                                <button type="submit" class="w-full btn-primary text-lg py-4">
                                     送金を実行
                                 </button>
                             </form>
                             
                             <!-- Quick Amounts -->
-                            <div class="mt-8 pt-6 border-t-2 border-gray-100">
-                                <h4 class="text-sm font-bold text-gray-700 mb-4">クイック送金</h4>
+                            <div class="mt-6 pt-6 border-t-2 border-gray-100">
+                                <h3 class="text-sm font-bold text-gray-700 mb-4">クイック送金</h3>
                                 <div class="grid grid-cols-4 gap-3">
-                                    <button type="button" class="neumorphic-button p-4 rounded-2xl text-center" onclick="document.getElementById('sendAmount').value = '100'; updatePreview();">
-                                        <p class="font-bold text-gray-900 text-lg">100</p>
-                                        <p class="text-xs text-gray-600 font-medium mt-1">JPYC</p>
+                                    <button type="button" class="card text-center p-4 hover:scale-105 transition-transform" onclick="document.getElementById('sendAmount').value = '100'; updatePreview();" aria-label="100JPYCを入力">
+                                        <p class="font-bold text-gray-900">100</p>
+                                        <p class="text-xs text-gray-600 mt-1">JPYC</p>
                                     </button>
-                                    <button type="button" class="neumorphic-button p-4 rounded-2xl text-center" onclick="document.getElementById('sendAmount').value = '500'; updatePreview();">
-                                        <p class="font-bold text-gray-900 text-lg">500</p>
-                                        <p class="text-xs text-gray-600 font-medium mt-1">JPYC</p>
+                                    <button type="button" class="card text-center p-4 hover:scale-105 transition-transform" onclick="document.getElementById('sendAmount').value = '500'; updatePreview();" aria-label="500JPYCを入力">
+                                        <p class="font-bold text-gray-900">500</p>
+                                        <p class="text-xs text-gray-600 mt-1">JPYC</p>
                                     </button>
-                                    <button type="button" class="neumorphic-button p-4 rounded-2xl text-center" onclick="document.getElementById('sendAmount').value = '1000'; updatePreview();">
-                                        <p class="font-bold text-gray-900 text-lg">1K</p>
-                                        <p class="text-xs text-gray-600 font-medium mt-1">JPYC</p>
+                                    <button type="button" class="card text-center p-4 hover:scale-105 transition-transform" onclick="document.getElementById('sendAmount').value = '1000'; updatePreview();" aria-label="1000JPYCを入力">
+                                        <p class="font-bold text-gray-900">1K</p>
+                                        <p class="text-xs text-gray-600 mt-1">JPYC</p>
                                     </button>
-                                    <button type="button" class="neumorphic-button p-4 rounded-2xl text-center" onclick="document.getElementById('sendAmount').value = '5000'; updatePreview();">
-                                        <p class="font-bold text-gray-900 text-lg">5K</p>
-                                        <p class="text-xs text-gray-600 font-medium mt-1">JPYC</p>
+                                    <button type="button" class="card text-center p-4 hover:scale-105 transition-transform" onclick="document.getElementById('sendAmount').value = '5000'; updatePreview();" aria-label="5000JPYCを入力">
+                                        <p class="font-bold text-gray-900">5K</p>
+                                        <p class="text-xs text-gray-600 mt-1">JPYC</p>
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
                 
                 <!-- Receive Tab -->
                 <div id="receiveTab" class="tab-content hidden">
                     <div class="max-w-2xl mx-auto">
-                        <div class="card-elevated p-8 animate-fade-in-scale">
+                        <section class="card animate-fadeIn" aria-labelledby="receive-heading">
                             <div class="text-center mb-8">
-                                <div class="inline-block relative mb-6">
-                                    <div class="absolute inset-0 gradient-success rounded-3xl blur-2xl opacity-30 animate-pulse-ring"></div>
-                                    <div class="relative p-5 gradient-success rounded-3xl">
-                                        <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
-                                        </svg>
-                                    </div>
+                                <div class="inline-block p-4 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 mb-4" role="img" aria-label="受取アイコン">
+                                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
+                                    </svg>
                                 </div>
-                                <h2 class="text-3xl font-bold text-gray-900 mb-3 gradient-text-animated">JPYC受取</h2>
-                                <p class="text-gray-600 font-medium">このアドレスにJPYCを送金してもらいましょう</p>
+                                <h2 id="receive-heading" class="text-3xl font-bold text-gray-900 mb-2">JPYC受取</h2>
+                                <p class="text-gray-600">このアドレスにJPYCを送金してもらいましょう</p>
                             </div>
                             
                             <!-- QR Code -->
-                            <div class="glass-card p-8 rounded-3xl mb-6">
+                            <div class="p-8 rounded-2xl bg-gray-50 mb-6">
                                 <div class="flex flex-col items-center">
-                                    <div id="qrcode" class="bg-white p-6 rounded-3xl shadow-premium mb-4"></div>
-                                    <p class="text-sm text-gray-600 font-medium">QRコードをスキャンして送金</p>
+                                    <div id="qrcode" class="bg-white p-6 rounded-2xl shadow-lg mb-4" role="img" aria-label="ウォレットアドレスQRコード"></div>
+                                    <p class="text-sm text-gray-600 font-medium">QRコードをスキャン</p>
                                 </div>
                             </div>
                             
                             <!-- Address -->
                             <div class="space-y-4">
-                                <div class="input-modern">
-                                    <input 
-                                        type="text" 
-                                        id="receiveAddress" 
-                                        readonly 
-                                        class="bg-gray-50"
-                                    >
-                                    <label>あなたのウォレットアドレス</label>
+                                <div>
+                                    <label for="receiveAddress" class="block text-sm font-semibold text-gray-700 mb-2">あなたのウォレットアドレス</label>
+                                    <input type="text" id="receiveAddress" class="input-field" readonly aria-readonly="true">
                                 </div>
                                 
-                                <button id="copyReceiveAddressBtn" class="w-full btn-premium btn-gradient-animated py-4">
-                                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <button id="copyReceiveAddressBtn" class="w-full btn-primary py-4" type="button">
+                                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                     </svg>
                                     アドレスをコピー
                                 </button>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
                 
                 <!-- History Tab -->
                 <div id="historyTab" class="tab-content hidden">
-                    <div class="card-elevated p-6 animate-fade-in-scale">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                                <div class="w-1 h-8 gradient-primary rounded-full"></div>
-                                取引履歴
-                            </h2>
-                        </div>
+                    <section class="card animate-fadeIn" aria-labelledby="history-heading">
+                        <h2 id="history-heading" class="text-2xl font-bold text-gray-900 mb-6">取引履歴</h2>
                         
-                        <div id="transactionHistory" class="space-y-3">
+                        <div id="transactionHistory">
                             <div class="text-center py-16">
-                                <div class="inline-block p-6 rounded-3xl bg-gradient-to-br from-gray-50 to-gray-100 mb-4">
-                                    <svg class="w-20 h-20 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="inline-block p-6 rounded-2xl bg-gray-50 mb-4">
+                                    <svg class="w-20 h-20 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
                                 </div>
                                 <p class="font-bold text-xl text-gray-700 mb-2">取引履歴がありません</p>
                                 <p class="text-sm text-gray-500 mb-6">最初の取引を始めると、ここに履歴が表示されます</p>
-                                <button class="btn-premium btn-gradient inline-flex items-center gap-2" onclick="switchTab('send')">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                    </svg>
+                                <button class="btn-primary" onclick="switchTab('send')" type="button">
                                     最初の送金を行う
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
                 
                 <!-- Analytics Tab -->
                 <div id="analyticsTab" class="tab-content hidden">
-                    <div class="space-y-6 animate-fade-in-scale">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div class="card-elevated p-6">
-                                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                    <div class="w-1 h-6 gradient-primary rounded-full"></div>
-                                    残高推移
-                                </h3>
-                                <canvas id="balanceChart"></canvas>
-                            </div>
-                            
-                            <div class="card-elevated p-6">
-                                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                    <div class="w-1 h-6 gradient-primary rounded-full"></div>
-                                    送受金の内訳
-                                </h3>
-                                <canvas id="transactionPieChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Settings Tab -->
-                <div id="settingsTab" class="tab-content hidden">
-                    <div class="max-w-3xl mx-auto space-y-6 animate-fade-in-scale">
-                        <div class="card-elevated p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                <div class="w-1 h-6 gradient-primary rounded-full"></div>
-                                通知設定
-                            </h3>
-                            
-                            <div class="space-y-5">
-                                <label class="flex items-center justify-between py-3 cursor-pointer group">
-                                    <div>
-                                        <p class="font-semibold text-gray-900 group-hover:text-purple-600 transition">取引通知</p>
-                                        <p class="text-sm text-gray-600">送受金時に通知を受け取る</p>
-                                    </div>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </div>
-                                </label>
-                                
-                                <label class="flex items-center justify-between py-3 cursor-pointer group">
-                                    <div>
-                                        <p class="font-semibold text-gray-900 group-hover:text-purple-600 transition">価格アラート</p>
-                                        <p class="text-sm text-gray-600">JPYC価格の変動を通知</p>
-                                    </div>
-                                    <div class="toggle-switch">
-                                        <input type="checkbox">
-                                        <span class="toggle-slider"></span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <section class="card animate-fadeIn" aria-labelledby="balance-chart-heading">
+                            <h2 id="balance-chart-heading" class="text-lg font-bold text-gray-900 mb-4">残高推移</h2>
+                            <canvas id="balanceChart" role="img" aria-label="残高推移グラフ"></canvas>
+                        </section>
                         
-                        <div class="card-elevated p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-4">About</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed">
-                                <strong class="text-gray-900">Version:</strong> 3.0.0<br>
-                                <strong class="text-gray-900">Last Updated:</strong> 2024年10月29日<br>
-                                <strong class="text-gray-900">License:</strong> MIT<br>
-                                <strong class="text-gray-900">Developer:</strong> JPYC Team
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Loading Modal -->
-            <div id="loadingOverlay" class="hidden">
-                <div class="modal-backdrop">
-                    <div class="modal-content text-center">
-                        <div class="inline-block relative mb-6">
-                            <div class="w-20 h-20 border-4 border-gray-200 rounded-full"></div>
-                            <div class="w-20 h-20 border-4 border-transparent border-t-purple-600 rounded-full animate-spin absolute top-0 left-0"></div>
-                        </div>
-                        <p class="text-xl font-bold text-gray-900 mb-2" id="loadingText">処理中...</p>
-                        <p class="text-sm text-gray-600">しばらくお待ちください</p>
+                        <section class="card animate-fadeIn" style="animation-delay: 0.1s" aria-labelledby="pie-chart-heading">
+                            <h2 id="pie-chart-heading" class="text-lg font-bold text-gray-900 mb-4">送受金の内訳</h2>
+                            <canvas id="transactionPieChart" role="img" aria-label="送受金内訳グラフ"></canvas>
+                        </section>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
     
     <!-- Footer -->
-    <footer class="relative z-10 text-center py-8 text-gray-600 text-sm mt-12">
-        <p class="font-medium">© 2024 JPYC Pro Wallet. All rights reserved.</p>
-        <p class="mt-2 space-x-4">
-            <a href="#" class="hover:text-purple-600 transition font-medium">利用規約</a>
-            <span>|</span>
-            <a href="#" class="hover:text-purple-600 transition font-medium">プライバシーポリシー</a>
-            <span>|</span>
-            <a href="#" class="hover:text-purple-600 transition font-medium">お問い合わせ</a>
-        </p>
+    <footer class="text-center py-8 text-white/80 text-sm" role="contentinfo">
+        <p class="font-medium">© 2024 JPYC Click. All rights reserved.</p>
+        <nav class="mt-2 space-x-4" aria-label="フッターナビゲーション">
+            <a href="#terms" class="hover:text-white transition">利用規約</a>
+            <span aria-hidden="true">|</span>
+            <a href="#privacy" class="hover:text-white transition">プライバシーポリシー</a>
+            <span aria-hidden="true">|</span>
+            <a href="#contact" class="hover:text-white transition">お問い合わせ</a>
+        </nav>
     </footer>
+    
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="loading-title">
+        <div class="bg-white rounded-3xl p-8 text-center max-w-sm mx-4">
+            <div class="inline-block relative mb-6">
+                <div class="w-20 h-20 border-4 border-gray-200 rounded-full"></div>
+                <div class="w-20 h-20 border-4 border-transparent border-t-indigo-600 rounded-full animate-spin absolute top-0 left-0" role="status" aria-label="読み込み中"></div>
+            </div>
+            <p id="loadingText" class="text-xl font-bold text-gray-900 mb-2">処理中...</p>
+            <p class="text-sm text-gray-600">しばらくお待ちください</p>
+        </div>
+    </div>
     
     <script>
         // Global Variables
         let provider, signer, userAddress, jpycContract;
         let currentBalance = 0;
         let transactions = [];
-        let currentPage = 1;
-        const ITEMS_PER_PAGE = 10;
         
         const JPYC_ADDRESSES = {
             polygon: '0x6AE7Dfc73E0dDE2aa99ac063DcF7e8A63265108c',
@@ -1537,7 +981,7 @@
             document.getElementById('copyAddressBtn').addEventListener('click', () => copyToClipboard(userAddress));
             document.getElementById('copyReceiveAddressBtn').addEventListener('click', () => copyToClipboard(userAddress));
             
-            document.querySelectorAll('.tab-modern').forEach(btn => {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => switchTab(e.currentTarget.dataset.tab));
             });
             
@@ -1552,6 +996,9 @@
         }
         
         async function connectWallet() {
+            // Hide SEO content
+            document.getElementById('seoContent').style.display = 'none';
+            
             if (typeof window.ethereum === 'undefined') {
                 showToast('MetaMaskをインストールしてください', 'error');
                 window.open('https://metamask.io/download/', '_blank');
@@ -1585,12 +1032,11 @@
         function updateUIAfterConnection() {
             const btn = document.getElementById('connectBtn');
             btn.innerHTML = '<svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>接続済み</span>';
-            btn.classList.remove('btn-gradient-animated');
-            btn.classList.add('gradient-success');
+            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
             
             document.getElementById('addressDisplay').classList.remove('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
-            document.getElementById('networkDisplay').classList.remove('hidden');
+            document.getElementById('networkBadge').classList.remove('hidden');
             
             const short = `${userAddress.substring(0, 6)}...${userAddress.substring(38)}`;
             document.getElementById('walletAddress').textContent = short;
@@ -1616,9 +1062,9 @@
         
         async function refreshBalance() {
             const icon = document.getElementById('refreshIcon');
-            icon.style.animation = 'spin 1s linear infinite';
+            icon.classList.add('animate-spin');
             await loadBalance();
-            icon.style.animation = '';
+            icon.classList.remove('animate-spin');
             showToast('残高を更新しました', 'success');
         }
         
@@ -1697,7 +1143,7 @@
                 text: userAddress,
                 width: 200,
                 height: 200,
-                colorDark: '#667eea',
+                colorDark: '#6366f1',
                 colorLight: '#ffffff',
                 correctLevel: QRCode.CorrectLevel.H
             });
@@ -1713,8 +1159,8 @@
                         datasets: [{
                             label: 'JPYC残高',
                             data: [1000, 1500, 1200, 1800, 2200, currentBalance || 2500],
-                            borderColor: '#667eea',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
                             tension: 0.4,
                             fill: true
                         }]
@@ -1748,7 +1194,7 @@
         }
         
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-modern').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
             
             document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
@@ -1782,9 +1228,9 @@
             };
             
             toast.innerHTML = `
-                <div class="toast-icon">${icons[type] || icons.info}</div>
+                <div>${icons[type] || icons.info}</div>
                 <span class="flex-1 font-medium text-gray-900">${message}</span>
-                <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600" type="button" aria-label="通知を閉じる">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
@@ -1812,7 +1258,7 @@
         
         function saveData() {
             try {
-                localStorage.setItem('jpyc_wallet_data', JSON.stringify({
+                localStorage.setItem('jpyc_click_data', JSON.stringify({
                     transactions,
                     currentBalance,
                     lastUpdated: new Date().toISOString()
@@ -1824,7 +1270,7 @@
         
         function loadSavedData() {
             try {
-                const saved = localStorage.getItem('jpyc_wallet_data');
+                const saved = localStorage.getItem('jpyc_click_data');
                 if (saved) {
                     const data = JSON.parse(saved);
                     transactions = data.transactions || [];
@@ -1835,7 +1281,7 @@
             }
         }
         
-        console.log('%c🎉 JPYC Pro Wallet v3.0 🎉', 'color: #667eea; font-size: 24px; font-weight: bold;');
+        console.log('%c✨ JPYC Click - ワンクリックで始まるウォレット体験 ✨', 'color: #6366f1; font-size: 20px; font-weight: bold;');
     </script>
 </body>
 </html>
