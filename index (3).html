@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO最適化 -->
+    <title>JPYC Wallet - Community Edition | jpyc.click</title>
+    <meta name="description" content="JPYC Walletはコミュニティが開発したJPYC対応ウォレットです。オープンソース・非営利で、安全・簡単にJPYCの送金・受取が可能。">
+    <meta name="keywords" content="JPYC,jpyc,JPYCウォレット,日本円ステーブルコイン,ステーブルコイン,暗号資産,ウォレット,Polygon,Ethereum,Web3">
+    <meta name="author" content="JPYC Wallet Community">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://jpyc.click/">
+    
+    <!-- OGP -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jpyc.click/">
+    <meta property="og:title" content="JPYC Wallet - Community Edition">
+    <meta property="og:description" content="コミュニティ開発のJPYC対応ウォレット">
+    <meta property="og:site_name" content="JPYC Wallet">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+                
+                <!-- Dashboard Tab -->
+                <div id="dashboardTab" class="tab-content">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 24px;">
+                        
+                        <!-- Balance Card -->
+                        <div style="grid-column: span 2;" class="card-elevated p-8 gradient-mesh animate-gradient">
+                            <div style="position: relative; z-index: 10;">
+                                <p style="color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 600; margin-bottom: 12px;">JPYC残高</p>
+                                <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px;">
+                                    <span id="mainBalance" style="font-size: 48px; font-weight: 900; color: white;">0.00</span>
+                                    <span style="font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.9);">JPYC</span>
+                                </div>
+                                <p style="color: rgba(255,255,255,0.7); font-size: 14px;">≈ <span id="jpyEquivalent">¥0</span> JPY</p>
+                                
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px;">
+                                    <button class="glass" style="padding: 12px; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s;" onclick="switchTab('send')">送金</button>
+                                    <button class="glass" style="padding: 12px; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s;" onclick="switchTab('receive')">受取</button>
+                                    <button class="glass tooltip" style="padding: 12px; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s;" onclick="refreshBalance()">
+                                        更新
+                                        <span class="tooltip-text">残高を更新</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stats Card -->
+                        <div class="card-elevated p-6">
+                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">統計情報</h3>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div class="gradient-success" style="padding: 16px; border-radius: 16px;">
+                                    <p style="font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 600;">受取総額</p>
+                                    <p id="totalReceived" style="font-size: 18px; font-weight: 700; color: white;">0 JPYC</p>
+                                </div>
+                                <div class="gradient-error" style="padding: 16px; border-radius: 16px;">
+                                    <p style="font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 600;">送金総額</p>
+                                    <p id="totalSent" style="font-size: 18px; font-weight: 700; color: white;">0 JPYC</p>
+                                </div>
+                                <div class="gradient-blue" style="padding: 16px; border-radius: 16px;">
+                                    <p style="font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 600;">取引回数</p>
+                                    <p id="transactionCount" style="font-size: 18px; font-weight: 700; color: white;">0回</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Transactions -->
+                    <div class="card-elevated p-6">
+                        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">最近の取引</h3>
+                        <div id="recentTransactions">
+                            <div style="text-align: center; padding: 64px 0; color: #9ca3af;">
+                                <p style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">取引履歴がありません</p>
+                                <p style="font-size: 14px; margin-bottom: 24px;">最初の取引を始めましょう！</p>
+                                <button class="btn-premium btn-gradient" onclick="switchTab('send')">最初の送金を行う</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Send Tab -->
+                <div id="sendTab" class="tab-content" style="display: none;">
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <div class="card-elevated p-8">
+                            <div style="text-center; margin-bottom: 32px;">
+                                <div style="display: inline-block; padding: 20px; margin-bottom: 24px;" class="gradient-primary" style="border-radius: 24px;">
+                                    <svg style="width: 56px; height: 56px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
+                                </div>
+                                <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 12px;" class="gradient-text">JPYC送金</h2>
+                                <p style="color: #6b7280;">受取アドレスと金額を入力してください</p>
+                            </div>
+                            
+                            <form id="sendForm" style="display: flex; flex-direction: column; gap: 24px;">
+                                <div class="input-modern">
+                                    <input type="text" id="recipientAddress" placeholder=" " required>
+                                    <label>受取アドレス</label>
+                                </div>
+                                
+                                <div class="input-modern">
+                                    <input type="number" id="sendAmount" placeholder=" " step="0.01" min="0" required>
+                                    <label>送金額 (JPYC)</label>
+                                    <button type="button" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); padding: 4px 12px; font-size: 12px; font-weight: 700; color: white; border-radius: 8px;" class="gradient-primary" onclick="setMaxAmount()">MAX</button>
+                                </div>
+                                
+                                <div class="input-modern">
+                                    <textarea id="sendMemo" rows="3" placeholder=" "></textarea>
+                                    <label>メモ（オプション）</label>
+                                </div>
+                                
+                                <div class="glass-card" style="padding: 24px; border-radius: 16px;">
+                                    <h4 style="font-weight: 700; margin-bottom: 16px;">取引概要</h4>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                        <span style="color: #6b7280;">送金額</span>
+                                        <span style="font-weight: 700;"><span id="previewAmount">0</span> JPYC</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-top: 12px; border-top: 2px solid #e5e7eb;">
+                                        <span style="font-weight: 700;">合計</span>
+                                        <span style="font-weight: 700; font-size: 24px;" class="gradient-text"><span id="previewTotal">0</span> JPYC</span>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn-premium btn-gradient-animated" style="width: 100%; font-size: 18px; padding: 16px;">送金を実行</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Receive Tab -->
+                <div id="receiveTab" class="tab-content" style="display: none;">
+                    <div style="max-width: 600px; margin: 0 auto;">
+                        <div class="card-elevated p-8">
+                            <div style="text-center; margin-bottom: 32px;">
+                                <div style="display: inline-block; padding: 20px; margin-bottom: 24px;" class="gradient-success" style="border-radius: 24px;">
+                                    <svg style="width: 56px; height: 56px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"></path>
+                                    </svg>
+                                </div>
+                                <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 12px;" class="gradient-text">JPYC受取</h2>
+                                <p style="color: #6b7280;">このアドレスにJPYCを送金してもらいましょう</p>
+                            </div>
+                            
+                            <div class="glass-card" style="padding: 32px; border-radius: 24px; margin-bottom: 24px;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div id="qrcode" style="background: white; padding: 24px; border-radius: 24px; margin-bottom: 16px;"></div>
+                                    <p style="font-size: 14px; color: #6b7280;">QRコードをスキャンして送金</p>
+                                </div>
+                            </div>
+                            
+                            <div class="input-modern" style="margin-bottom: 16px;">
+                                <input type="text" id="receiveAddress" readonly style="background: #f9fafb;">
+                                <label>あなたのウォレットアドレス</label>
+                            </div>
+                            
+                            <button id="copyReceiveAddressBtn" class="btn-premium btn-gradient-animated" style="width: 100%; padding: 16px;">アドレスをコピー</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Tab -->
+                <div id="historyTab" class="tab-content" style="display: none;">
+                    <div class="card-elevated p-6">
+                        <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">取引履歴</h2>
+                        <div id="transactionHistory">
+                            <div style="text-align: center; padding: 64px 0; color: #9ca3af;">
+                                <p style="font-weight: 700; font-size: 20px; margin-bottom: 8px;">取引履歴がありません</p>
+                                <p style="font-size: 14px; margin-bottom: 24px;">最初の取引を始めると、ここに履歴が表示されます</p>
+                                <button class="btn-premium btn-gradient" onclick="switchTab('send')">最初の送金を行う</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Tab -->
+                <div id="settingsTab" class="tab-content" style="display: none;">
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        <div class="card-elevated p-6" style="margin-bottom: 24px;">
+                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 24px;">通知設定</h3>
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                <label style="display: flex; align-items: center; justify-between; cursor: pointer;">
+                                    <div>
+                                        <p style="font-weight: 600;">取引通知</p>
+                                        <p style="font-size: 14px; color: #6b7280;">送受金時に通知を受け取る</p>
+                                    </div>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="card-elevated p-6" style="margin-bottom: 24px;">
+                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">プロジェクト情報</h3>
+                            <div style="font-size: 14px; color: #6b7280; line-height: 1.8;">
+                                <p><strong style="color: #111827;">Version:</strong> 3.1.0</p>
+                                <p><strong style="color: #111827;">License:</strong> MIT (Open Source)</p>
+                                <p><strong style="color: #111827;">GitHub:</strong> <a href="https://github.com" style="color: #6366f1;">github.com/jpyc-wallet</a></p>
+                                <p><strong style="color: #111827;">Website:</strong> <a href="https://jpyc.click" style="color: #6366f1;">jpyc.click</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="card-elevated p-6" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));">
+                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">お問い合わせ</h3>
+                            <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">
+                                本サービスに関するご質問・ご要望、<br>
+                                またはJPYC株式会社様からのご連絡は以下までお願いいたします。
+                            </p>
+                            <a href="mailto:contact@jpyc.click" style="display: inline-flex; align-items: center; gap: 8px; color: #6366f1; font-weight: 600;">
+                                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                contact@jpyc.click
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Loading Modal -->
+            <div id="loadingOverlay" style="display: none;">
+                <div class="modal-backdrop">
+                    <div class="modal-content" style="text-align: center;">
+                        <div style="position: relative; display: inline-block; margin-bottom: 24px;">
+                            <div style="width: 80px; height: 80px; border: 4px solid #e5e7eb; border-radius: 50%;"></div>
+                            <div style="width: 80px; height: 80px; border: 4px solid transparent; border-top-color: #6366f1; border-radius: 50%; position: absolute; top: 0; left: 0; animation: spin 1s linear infinite;"></div>
+                        </div>
+                        <p id="loadingText" style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">処理中...</p>
+                        <p style="font-size: 14px; color: #6b7280;">しばらくお待ちください</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer style="position: relative; z-index: 10; padding: 32px 0; margin-top: 48px;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 16px;">
+            
+            <!-- Official Notice -->
+            <div class="card-elevated p-6" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(254, 243, 199, 0.3), rgba(253, 230, 138, 0.3)); border: 2px solid #fbbf24;">
+                <div style="display: flex; align-items: start; gap: 16px;">
+                    <div style="flex-shrink: 0; padding: 12px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 16px;">
+                        <svg style="width: 32px; height: 32px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 18px; font-weight: 700; color: #92400e; margin-bottom: 12px;">重要なお知らせ</h3>
+                        <p style="font-size: 14px; color: #78350f; line-height: 1.6; margin-bottom: 12px;">
+                            このサービスは<strong>JPYC株式会社の公式サービスではありません</strong>。コミュニティが開発した非営利・オープンソースのプロジェクトです。
+                        </p>
+                        <p style="font-size: 14px; color: #78350f; line-height: 1.6;">
+                            JPYC公式サービスは 
+                            <a href="https://jpyc.app" target="_blank" rel="noopener" style="color: #b45309; font-weight: 700; text-decoration: underline;">jpyc.app</a> 
+                            をご利用ください。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; margin-bottom: 32px;">
+                
+                <!-- About -->
+                <div>
+                    <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #111827;">JPYC Walletについて</h4>
+                    <p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin-bottom: 16px;">
+                        コミュニティ主導で開発されたJPYC対応ウォレットです。オープンソース・非営利で運営しています。
+                    </p>
+                    <div style="display: flex; gap: 12px;">
+                        <a href="https://github.com/jpyc-wallet" target="_blank" rel="noopener" style="padding: 8px 16px; background: #f3f4f6; border-radius: 8px; color: #374151; font-weight: 600; font-size: 14px; text-decoration: none; transition: all 0.3s;">
+                            GitHub
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener" style="padding: 8px 16px; background: #f3f4f6; border-radius: 8px; color: #374151; font-weight: 600; font-size: 14px; text-decoration: none; transition: all 0.3s;">
+                            Twitter
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Links -->
+                <div>
+                    <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #111827;">公式リンク</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                        <li>
+                            <a href="https://jpyc.app" target="_blank" rel="noopener" style="font-size: 14px; color: #6366f1; text-decoration: none; font-weight: 600;">
+                                → JPYC公式サイト
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://jpyc.jp" target="_blank" rel="noopener" style="font-size: 14px; color: #6366f1; text-decoration: none; font-weight: 600;">
+                                → JPYC株式会社
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://docs.jpyc.jp" target="_blank" rel="noopener" style="font-size: 14px; color: #6366f1; text-decoration: none; font-weight: 600;">
+                                → JPYCドキュメント
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #111827;">お問い合わせ</h4>
+                    <p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin-bottom: 12px;">
+                        ご質問・ご要望・JPYC株式会社様からのご連絡
+                    </p>
+                    <a href="mailto:contact@jpyc.click" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border-radius: 12px; font-weight: 600; font-size: 14px; text-decoration: none; transition: all 0.3s;">
+                        <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        メール送信
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div style="padding-top: 24px; border-top: 2px solid #e5e7eb; text-align: center;">
+                <p style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">
+                    © 2024 JPYC Wallet Community. Licensed under MIT License.
+                </p>
+                <p style="font-size: 13px; color: #9ca3af;">
+                    This is an unofficial, community-driven project. Not affiliated with JPYC Inc.
+                </p>
+            </div>
+            
+        </div>
+    </footer>
+    
+    <script>
+        // JPYC Contract Address (Polygon)
+        const JPYC_ADDRESS = '0x6AE7Dfc73E0dDE2aa99ac063DcF7e8A63265108c';
+        const JPYC_ABI = [
+            'function balanceOf(address owner) view returns (uint256)',
+            'function transfer(address to, uint256 amount) returns (bool)',
+            'function decimals() view returns (uint8)',
+            'function symbol() view returns (string)'
+        ];
+        
+        let provider, signer, jpycContract, userAddress;
+        
+        // Utility Functions
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                info: '#3b82f6',
+                warning: '#f59e0b'
+            };
+            
+            toast.innerHTML = `
+                <div style="width: 24px; height: 24px; border-radius: 50%; background: ${colors[type]}; display: flex; align-items: center; justify-content: center;">
+                    <svg style="width: 14px; height: 14px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <span style="flex: 1; font-weight: 600; color: #111827;">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideInFromRight 0.4s ease reverse';
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+        
+        function showLoading(text = '処理中...') {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loadingOverlay').style.display = 'block';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+        
+        function formatAddress(address) {
+            return `${address.slice(0, 6)}...${address.slice(-4)}`;
+        }
+        
+        function formatNumber(num) {
+            return new Intl.NumberFormat('ja-JP', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num);
+        }
+        
+        // Connect Wallet
+        async function connectWallet() {
+            try {
+                if (typeof window.ethereum === 'undefined') {
+                    showToast('MetaMaskがインストールされていません', 'error');
+                    window.open('https://metamask.io/download/', '_blank');
+                    return;
+                }
+                
+                showLoading('ウォレットに接続中...');
+                
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                await provider.send('eth_requestAccounts', []);
+                signer = provider.getSigner();
+                userAddress = await signer.getAddress();
+                
+                // Check network
+                const network = await provider.getNetwork();
+                if (network.chainId !== 137) {
+                    const switchNetwork = confirm('Polygon Mainnetに切り替えますか？');
+                    if (switchNetwork) {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0x89' }],
+                        });
+                    }
+                }
+                
+                jpycContract = new ethers.Contract(JPYC_ADDRESS, JPYC_ABI, signer);
+                
+                // Update UI
+                document.getElementById('walletAddress').textContent = formatAddress(userAddress);
+                document.getElementById('receiveAddress').value = userAddress;
+                document.getElementById('addressDisplay').classList.remove('hidden');
+                document.getElementById('networkDisplay').classList.remove('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                document.getElementById('connectBtn').textContent = '接続済み';
+                document.getElementById('connectBtn').style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                
+                // Generate QR Code
+                document.getElementById('qrcode').innerHTML = '';
+                new QRCode(document.getElementById('qrcode'), {
+                    text: userAddress,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                });
+                
+                await refreshBalance();
+                hideLoading();
+                showToast('ウォレットに接続しました', 'success');
+                
+            } catch (error) {
+                hideLoading();
+                console.error(error);
+                showToast('接続に失敗しました: ' + error.message, 'error');
+            }
+        }
+        
+        // Refresh Balance
+        async function refreshBalance() {
+            if (!jpycContract || !userAddress) return;
+            
+            try {
+                const icon = document.getElementById('refreshIcon');
+                if (icon) {
+                    icon.style.animation = 'spin 1s linear infinite';
+                }
+                
+                const balance = await jpycContract.balanceOf(userAddress);
+                const formattedBalance = ethers.utils.formatUnits(balance, 18);
+                
+                document.getElementById('mainBalance').textContent = formatNumber(parseFloat(formattedBalance));
+                document.getElementById('jpyEquivalent').textContent = '¥' + formatNumber(parseFloat(formattedBalance));
+                
+                if (icon) {
+                    setTimeout(() => icon.style.animation = '', 1000);
+                }
+                
+            } catch (error) {
+                console.error('Balance refresh error:', error);
+            }
+        }
+        
+        // Send Transaction
+        async function sendTransaction(e) {
+            e.preventDefault();
+            
+            const recipient = document.getElementById('recipientAddress').value;
+            const amount = document.getElementById('sendAmount').value;
+            const memo = document.getElementById('sendMemo').value;
+            
+            if (!ethers.utils.isAddress(recipient)) {
+                showToast('無効なアドレスです', 'error');
+                return;
+            }
+            
+            if (parseFloat(amount) <= 0) {
+                showToast('金額を入力してください', 'error');
+                return;
+            }
+            
+            try {
+                showLoading('トランザクションを送信中...');
+                
+                const amountWei = ethers.utils.parseUnits(amount, 18);
+                const tx = await jpycContract.transfer(recipient, amountWei);
+                
+                showLoading('ブロックチェーンで確認中...');
+                await tx.wait();
+                
+                hideLoading();
+                showToast('送金が完了しました！', 'success');
+                
+                // Reset form
+                document.getElementById('sendForm').reset();
+                document.getElementById('previewAmount').textContent = '0';
+                document.getElementById('previewTotal').textContent = '0';
+                
+                await refreshBalance();
+                
+            } catch (error) {
+                hideLoading();
+                console.error(error);
+                if (error.code === 4001) {
+                    showToast('トランザクションがキャンセルされました', 'warning');
+                } else {
+                    showToast('送金に失敗しました: ' + error.message, 'error');
+                }
+            }
+        }
+        
+        // Set Max Amount
+        async function setMaxAmount() {
+            if (!jpycContract || !userAddress) return;
+            
+            try {
+                const balance = await jpycContract.balanceOf(userAddress);
+                const formattedBalance = ethers.utils.formatUnits(balance, 18);
+                document.getElementById('sendAmount').value = formattedBalance;
+                updatePreview();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        
+        // Update Preview
+        function updatePreview() {
+            const amount = document.getElementById('sendAmount').value || '0';
+            document.getElementById('previewAmount').textContent = formatNumber(parseFloat(amount));
+            document.getElementById('previewTotal').textContent = formatNumber(parseFloat(amount));
+        }
+        
+        // Copy Address
+        function copyAddress(elementId) {
+            const address = elementId === 'copyAddressBtn' ? userAddress : document.getElementById('receiveAddress').value;
+            
+            navigator.clipboard.writeText(address).then(() => {
+                showToast('アドレスをコピーしました', 'success');
+            }).catch(() => {
+                showToast('コピーに失敗しました', 'error');
+            });
+        }
+        
+        // Switch Tab
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-modern').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            
+            // Add active class to clicked button
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+        
+        // Add spin animation to CSS
+        const style = document.createElement('style');
+        style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+        document.head.appendChild(style);
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Connect button
+            document.getElementById('connectBtn').addEventListener('click', connectWallet);
+            
+            // Copy address buttons
+            document.getElementById('copyAddressBtn').addEventListener('click', () => copyAddress('copyAddressBtn'));
+            document.getElementById('copyReceiveAddressBtn').addEventListener('click', () => copyAddress('copyReceiveAddressBtn'));
+            
+            // Send form
+            document.getElementById('sendForm').addEventListener('submit', sendTransaction);
+            document.getElementById('sendAmount').addEventListener('input', updatePreview);
+            
+            // Tab buttons
+            document.querySelectorAll('.tab-modern').forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
